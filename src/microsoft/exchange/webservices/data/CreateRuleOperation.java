@@ -6,7 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 /**
  * Represents an operation to create a new rule.
  */

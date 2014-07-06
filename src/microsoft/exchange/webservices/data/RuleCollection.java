@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import microsoft.exchange.webservices.data.exceptions.ArgumentOutOfRangeException;
 /**
  * Represents a collection of rules.
  */

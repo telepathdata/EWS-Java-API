@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.ArrayList;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /***
  * Represents an e-mail message. Properties available on e-mail messages are
  * defined in the EmailMessageSchema class.

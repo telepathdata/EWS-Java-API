@@ -11,10 +11,6 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.ListIterator;
 
-import microsoft.exchange.webservices.data.exceptions.InvalidOperationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-
 /**
  * Represents a generic item. Properties available on items are defined in the
  * ItemSchema class.
@@ -931,7 +927,6 @@ public class Item extends ServiceObject {
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	@SuppressWarnings("unchecked")
 	public EnumSet<ResponseActions> getAllowedResponseActions()
 			throws ServiceLocalException {
 		return (EnumSet<ResponseActions>) this.getPropertyBag()
@@ -1192,7 +1187,6 @@ public class Item extends ServiceObject {
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	@SuppressWarnings("unchecked")
 	public EnumSet<EffectiveRights> getEffectiveRights()
 			throws ServiceLocalException {
 		return (EnumSet<EffectiveRights>) this.getPropertyBag()

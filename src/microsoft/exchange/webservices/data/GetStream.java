@@ -7,14 +7,12 @@
 
 package microsoft.exchange.webservices.data;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.concurrent.Callable;
+import java.io.OutputStream;
+import java.util.concurrent.*;
 
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-import microsoft.exchange.webservices.data.exceptions.HttpErrorException;
-
-class GetStream implements Callable<Object> {
-	
+class GetStream implements Callable {
 	HttpWebRequest request;
 	String mName = "";
 
@@ -23,7 +21,9 @@ class GetStream implements Callable<Object> {
 		this.mName = method;
 	}
 
-	public Object call() throws java.io.IOException, EWSHttpException,	HttpErrorException {
+	public Object call() throws java.io.IOException, EWSHttpException,
+			HttpErrorException {
+
 		if (this.mName.equalsIgnoreCase("getOutputStream"))
 			return (Object) this.getOutputStream();
 		return null;

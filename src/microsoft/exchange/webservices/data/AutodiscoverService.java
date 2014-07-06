@@ -22,22 +22,12 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentException;
-import microsoft.exchange.webservices.data.exceptions.AutodiscoverLocalException;
-import microsoft.exchange.webservices.data.exceptions.AutodiscoverRemoteException;
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-import microsoft.exchange.webservices.data.exceptions.FormatException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-
 /**
  *Represents a binding to the Exchange Autodiscover Service.
  */
-public final class AutodiscoverService extends ExchangeServiceBase implements IAutodiscoverRedirectionUrl, IFunctionDelegate {
+public final class AutodiscoverService extends ExchangeServiceBase implements
+IAutodiscoverRedirectionUrl, IFunctionDelegate {
 
-	
-	
 	// region Private members
 	/** The domain. */
 	private String domain;
@@ -217,9 +207,9 @@ public final class AutodiscoverService extends ExchangeServiceBase implements IA
 		request.executeRequest();
 		request.getResponseCode();
 		URI redirectUrl;
-		OutParam<URI> outParam = new OutParam<URI>();
+		OutParam outParam = new OutParam();
 		if (this.tryGetRedirectionResponse(request, outParam)) {
-			redirectUrl = outParam.getParam();
+			redirectUrl = (URI) outParam.getParam();
 			settings.makeRedirectionResponse(redirectUrl);
 			return settings;
 		}
@@ -319,7 +309,7 @@ public final class AutodiscoverService extends ExchangeServiceBase implements IA
 		this.traceMessage(TraceFlags.AutodiscoverConfiguration, String.format(
 				"Trying to get Autodiscover redirection URL from %s.", url));
 
-		HttpWebRequest request = new HttpClientWebRequest(this.simpleClientConnectionManager);
+		HttpWebRequest request = new HttpClientWebRequest(this.getSimpleHttpConnectionManager());
 		try {
 			request.setUrl(URI.create(url).toURL());
 		} catch (MalformedURLException e) {
@@ -465,7 +455,7 @@ public final class AutodiscoverService extends ExchangeServiceBase implements IA
             // No Url or Domain specified, need to 
         	//figure out which endpoint to use.
             int currentHop = 1;
-            OutParam<Integer> outParam = new OutParam<Integer>();
+            OutParam<Integer> outParam = new OutParam();
             outParam.setParam(new Integer(currentHop));
             List<String> redirectionEmailAddresses = new ArrayList<String>();
             return this.internalGetLegacyUserSettings(
@@ -607,10 +597,12 @@ public final class AutodiscoverService extends ExchangeServiceBase implements IA
 								"found via SCP, treating " +
 						"as inconclusive.");
 
-						delayedException = new AutodiscoverRemoteException(	Strings.AutodiscoverError, settings.getError());
+						delayedException = new AutodiscoverRemoteException(
+								Strings.AutodiscoverError, settings.getError());
 						currentUrlIndex++;
 					} else {
-						throw new AutodiscoverRemoteException(Strings.AutodiscoverError, settings.getError());
+						throw new AutodiscoverRemoteException(
+								Strings.AutodiscoverError, settings.getError());
 					}
 					break;
 				default:
@@ -1554,7 +1546,7 @@ public final class AutodiscoverService extends ExchangeServiceBase implements IA
 
 			endpoints.setParam(EnumSet.of(AutodiscoverEndpoints.None));
 
-			HttpWebRequest request = new HttpClientWebRequest(this.simpleClientConnectionManager);
+			HttpWebRequest request = new HttpClientWebRequest(this.getSimpleHttpConnectionManager());
 			try {
 				request.setUrl(autoDiscoverUrl.toURL());
 			} catch (MalformedURLException e) {

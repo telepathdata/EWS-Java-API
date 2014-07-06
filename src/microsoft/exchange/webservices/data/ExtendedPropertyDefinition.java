@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.UUID;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  * Represents the definition of an extended property.
  * 
@@ -348,7 +346,7 @@ public final class ExtendedPropertyDefinition extends PropertyDefinitionBase {
 	 * @return The property definition's printable name.
 	 */
 	@Override
-	public String getPrintableName() {
+	protected String getPrintableName() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		sb.append(formatField(NameFieldName, this.getName()));
@@ -435,7 +433,7 @@ public final class ExtendedPropertyDefinition extends PropertyDefinitionBase {
 	 * Gets the property type.
 	 */
 	@Override
-	public Class<?> getType()
+	public Class getType()
 	{	
 		return MapiTypeConverter.getMapiTypeConverterMap().
 				get(getMapiType()).getType(); 		

@@ -6,7 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 /**
  * Represents a CreateUserConfiguration request.
  * 

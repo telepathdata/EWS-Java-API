@@ -8,19 +8,14 @@ package microsoft.exchange.webservices.data;
 
 import java.util.concurrent.Future;
 
-
-abstract class AbstractAsyncCallback<T> implements Runnable, Callback<T> {
-	
-	
-	Future<?> task;
-	
-	
+abstract class AbstractAsyncCallback implements Runnable, Callback {
+	Future task;
 	static boolean callbackProcessed = false;
 
 	AbstractAsyncCallback() {
 	}
 
-	AbstractAsyncCallback(Future<?> t) {
+	AbstractAsyncCallback(Future t) {
 		this.task = t;
 	}
 

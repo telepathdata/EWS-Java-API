@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.List;
 
-
 /**
  * Represents a response object created to remove a calendar item from a meeting
  * cancellation.

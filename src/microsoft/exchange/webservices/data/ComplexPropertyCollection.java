@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /***
  * Represents a collection of properties that can be sent to and retrieved from
  * EWS.

@@ -11,9 +11,6 @@ import java.util.Collection;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /**
  * Represents the response to a GetServerTimeZones request.
  */

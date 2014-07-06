@@ -6,9 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.UpdateInboxRulesException;
-
 
 /**
  * Represents a UpdateInboxRulesRequest request.
@@ -141,7 +138,8 @@ final class UpdateInboxRulesRequest extends SimpleServiceRequestBase{
 		UpdateInboxRulesResponse serviceResponse = 
 			(UpdateInboxRulesResponse)this.internalExecute();
 		if (serviceResponse.getResult() == ServiceResult.Error) {
-			throw new UpdateInboxRulesException(serviceResponse, this.inboxRuleOperations);
+			throw new UpdateInboxRulesException(serviceResponse, 
+					this.inboxRuleOperations);
 		}
 		return serviceResponse;
 	}

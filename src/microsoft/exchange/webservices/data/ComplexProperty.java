@@ -6,11 +6,9 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
 
 /***
  * Represents a property that can be sent to or retrieved from EWS.

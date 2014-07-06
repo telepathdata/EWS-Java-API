@@ -9,9 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents a group of time zone period transitions.
  * 
@@ -35,10 +32,10 @@ class TimeZoneTransitionGroup extends ComplexProperty {
 	private TimeZoneTransition transitionToDaylight;
 
 	/** The Constant PeriodTarget. */
-	//private final static String PeriodTarget = "Period";
+	private final static String PeriodTarget = "Period";
 
 	/** The Constant GroupTarget. */
-	//private final static String GroupTarget = "Group";
+	private final static String GroupTarget = "Group";
 
 
 	/**
@@ -287,7 +284,7 @@ class TimeZoneTransitionGroup extends ComplexProperty {
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	/*private void initializeTransitions() throws ServiceLocalException {
+	private void initializeTransitions() throws ServiceLocalException {
 		if (this.transitionToStandard == null) {
 			for (TimeZoneTransition transition : this.transitions) {
 				if (transition.getTargetPeriod().isStandardPeriod() || 
@@ -305,7 +302,7 @@ class TimeZoneTransitionGroup extends ComplexProperty {
 			throw new ServiceLocalException(
 					Strings.InvalidOrUnsupportedTimeZoneDefinition);
 		}
-	}*/
+	}
 
 	/**
 	 * Gets the transition to the Daylight period.
@@ -314,10 +311,11 @@ class TimeZoneTransitionGroup extends ComplexProperty {
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	/*private TimeZoneTransition getTransitionToDaylight() throws ServiceLocalException {
+	private TimeZoneTransition getTransitionToDaylight()
+			throws ServiceLocalException {
 		this.initializeTransitions();
 		return this.transitionToDaylight;
-	}*/
+	}
 
 	/**
 	 * Gets the transition to the Standard period.
@@ -326,11 +324,12 @@ class TimeZoneTransitionGroup extends ComplexProperty {
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	/*private TimeZoneTransition getTransitionToStandard() throws ServiceLocalException {
+	private TimeZoneTransition getTransitionToStandard()
+			throws ServiceLocalException {
 		this.initializeTransitions();
 		return this.transitionToStandard;
 	}
-*/
+
 	/**
 	 * Gets the offset to UTC based on this group's transitions.
 	 *

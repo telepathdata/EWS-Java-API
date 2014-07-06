@@ -9,8 +9,6 @@ package microsoft.exchange.webservices.data;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents the base class for all recurring time zone period transitions.
  * 

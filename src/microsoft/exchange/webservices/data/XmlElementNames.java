@@ -10,7 +10,7 @@ package microsoft.exchange.webservices.data;
  * XML element names.
  * 
  */
-public class XmlElementNames {
+class XmlElementNames {
 
 	/** The Constant AllProperties. */
 	public static final String AllProperties = "AllProperties";

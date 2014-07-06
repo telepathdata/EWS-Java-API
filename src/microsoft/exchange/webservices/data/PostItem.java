@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * Represents a post item. Properties available on post items are defined in the
  * PostItemSchema class.

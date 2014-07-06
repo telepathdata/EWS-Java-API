@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * Represents a meeting cancellation message. Properties available on meeting
  * messages are defined in the MeetingMessageSchema class.

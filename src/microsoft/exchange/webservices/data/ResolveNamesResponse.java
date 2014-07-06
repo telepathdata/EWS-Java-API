@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-
 /***
  * Represents the response to a name resolution operation.
  */

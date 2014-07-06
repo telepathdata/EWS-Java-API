@@ -12,9 +12,9 @@ import javax.xml.bind.ValidationEventHandler;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 import javax.xml.validation.ValidatorHandler;
+import  javax.xml.validation.Schema;
 
 /**
  * XmlSchema with protection against DTD parsing in read overloads

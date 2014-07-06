@@ -15,9 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents a time zone as defined by the EWS schema.
  */
@@ -97,7 +94,8 @@ public class TimeZoneDefinition extends ComplexProperty implements Comparator<Ti
 	 *            the time zone period
 	 * @return A TimeZoneTransitionGroup.
 	 */
-	/*private TimeZoneTransitionGroup createTransitionGroupToPeriod(TimeZonePeriod timeZonePeriod) {
+	private TimeZoneTransitionGroup createTransitionGroupToPeriod(
+			TimeZonePeriod timeZonePeriod) {
 		TimeZoneTransition transitionToPeriod = new TimeZoneTransition(this,
 				timeZonePeriod);
 
@@ -106,7 +104,7 @@ public class TimeZoneDefinition extends ComplexProperty implements Comparator<Ti
 		transitionGroup.getTransitions().add(transitionToPeriod);
 		this.transitionGroups.put(transitionGroup.getId(), transitionGroup);
 		return transitionGroup;
-	}*/
+	}
 
 	/**
 	 * Reads the attributes from XML.
@@ -245,10 +243,11 @@ public class TimeZoneDefinition extends ComplexProperty implements Comparator<Ti
 				writer.writeStartElement(XmlNamespace.Types,
 						XmlElementNames.Periods);
 
-				Iterator<TimeZonePeriod> it = this.periods.values().iterator();
+				Iterator it = this.periods.values().iterator();
 				while (it.hasNext()) {
-					it.next().writeToXml(writer);
+					((TimeZonePeriod) it.next()).writeToXml(writer);
 				}
+
 				writer.writeEndElement(); // Periods
 			}
 

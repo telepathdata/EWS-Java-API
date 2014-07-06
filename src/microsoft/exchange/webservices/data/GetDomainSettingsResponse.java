@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * Represents the response to a GetDomainSettings call for an individual domain.
  * 

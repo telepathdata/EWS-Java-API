@@ -9,8 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.util.HashMap;
 import java.util.Map;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents a ResolveNames request.
  */

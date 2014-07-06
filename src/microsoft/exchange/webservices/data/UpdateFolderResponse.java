@@ -6,7 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 /**
  * Represents response to UpdateFolder request.
  * 

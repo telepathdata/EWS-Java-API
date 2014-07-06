@@ -14,9 +14,6 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents an ordered collection of property definitions qualified with a
  * sort direction.
@@ -55,8 +52,10 @@ public final class OrderByCollection implements
 					Strings.PropertyAlreadyExistsInOrderByCollection,
 					propertyDefinition.getPrintableName()));
 		}
-		Map<PropertyDefinitionBase, SortDirection> propertyDefinitionSortDirectionPair = new HashMap<PropertyDefinitionBase, SortDirection>();
-		propertyDefinitionSortDirectionPair.put(propertyDefinition,	sortDirection);
+		Map propertyDefinitionSortDirectionPair = new 
+				HashMap<PropertyDefinitionBase, SortDirection>();
+		propertyDefinitionSortDirectionPair.put(propertyDefinition,
+				sortDirection);
 		this.propDefSortOrderPairList.add(propertyDefinitionSortDirectionPair);
 	}
 
@@ -77,7 +76,7 @@ public final class OrderByCollection implements
 	 *         definition; otherwise, false.
 	 */
 	protected boolean contains(PropertyDefinitionBase propertyDefinition) {
-		for (Map<PropertyDefinitionBase, SortDirection> propDefSortOrderPair : propDefSortOrderPairList) {
+		for (Map propDefSortOrderPair : propDefSortOrderPairList) {
 			return propDefSortOrderPair.containsKey(propertyDefinition);
 		}
 		return false;
@@ -103,7 +102,7 @@ public final class OrderByCollection implements
 	public boolean remove(PropertyDefinitionBase propertyDefinition) {
 		List<Map<PropertyDefinitionBase, SortDirection>> removeList = new 
 				ArrayList<Map<PropertyDefinitionBase, SortDirection>>();
-		for (Map<PropertyDefinitionBase, SortDirection> propDefSortOrderPair : propDefSortOrderPairList) {
+		for (Map propDefSortOrderPair : propDefSortOrderPairList) {
 			if (propDefSortOrderPair.containsKey(propertyDefinition)) {
 				removeList.add(propDefSortOrderPair);
 			}
@@ -131,7 +130,8 @@ public final class OrderByCollection implements
 	 *            the sort direction
 	 * @return True if collection contains property definition, otherwise false.
 	 */
-	public boolean tryGetValue(PropertyDefinitionBase propertyDefinition, OutParam<Object> sortDirection) {
+	public boolean tryGetValue(PropertyDefinitionBase propertyDefinition,
+			OutParam sortDirection) {
 		for (Map<PropertyDefinitionBase, SortDirection> pair : this.propDefSortOrderPairList) {
 
 			if (pair.containsKey(propertyDefinition)) {

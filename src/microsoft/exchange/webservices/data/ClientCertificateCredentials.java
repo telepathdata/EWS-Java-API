@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import javax.net.ssl.TrustManager;
 
-
 /**
  * ClientCertificateCredentials wraps an instance of X509CertificateCollection used for client certification-based authentication.
  */

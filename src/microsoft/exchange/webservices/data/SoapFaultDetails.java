@@ -11,13 +11,11 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /**
  * Represents SoapFault details.
  * 
  */
-public class SoapFaultDetails {
+class SoapFaultDetails {
 
 	/** The fault code. */
 	private String faultCode;
@@ -65,7 +63,7 @@ public class SoapFaultDetails {
 	 * @throws Exception
 	 *             the exception
 	 */
-	public static SoapFaultDetails parse(EwsXmlReader reader,
+	protected static SoapFaultDetails parse(EwsXmlReader reader,
 			XmlNamespace soapNamespace) throws Exception {
 		SoapFaultDetails soapFaultDetails = new SoapFaultDetails();
 

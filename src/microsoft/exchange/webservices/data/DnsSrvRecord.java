@@ -10,12 +10,10 @@ package microsoft.exchange.webservices.data;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-import microsoft.exchange.webservices.data.exceptions.DnsException;
-
 /**
  * Represents a DNS SRV Record.
  */
-public class DnsSrvRecord extends DnsRecord {
+class DnsSrvRecord extends DnsRecord {
 	/*
 	 * The string representing the target host
 	 */
@@ -43,7 +41,7 @@ public class DnsSrvRecord extends DnsRecord {
 	 * 
 	 * @return target
 	 */
-	public String getNameTarget() {
+	protected String getNameTarget() {
 		return this.target;
 	}
 
@@ -52,7 +50,7 @@ public class DnsSrvRecord extends DnsRecord {
 	 * 
 	 * @return priority
 	 */
-	public int getPriority() {
+	protected int getPriority() {
 		return priority;
 	}
 
@@ -61,7 +59,7 @@ public class DnsSrvRecord extends DnsRecord {
 	 * 
 	 * @return weight
 	 */
-	public int getWeight() {
+	protected int getWeight() {
 		return weight;
 	}
 
@@ -70,7 +68,7 @@ public class DnsSrvRecord extends DnsRecord {
 	 * 
 	 * @return port
 	 */
-	public int getPort() {
+	protected int getPort() {
 		return port;
 	}
 

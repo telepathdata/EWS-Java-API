@@ -9,10 +9,11 @@ package microsoft.exchange.webservices.data;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
+import java.util.Date;
 
+import javax.swing.text.DateFormatter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-
 
 //import sun.util.calendar.CalendarDate;
 
@@ -199,7 +200,8 @@ public abstract class WSSecurityBasedCredentials extends ExchangeCredentials {
 	 *             the xML stream exception
 	 */
 	@Override
-	public void serializeWSSecurityHeaders(XMLStreamWriter xmlWriter) throws XMLStreamException {
+	protected void serializeWSSecurityHeaders(XMLStreamWriter xmlWriter)
+	throws XMLStreamException {
 		EwsUtilities.EwsAssert(this.securityToken != null,
 				"WSSecurityBasedCredentials.SerializeWSSecurityHeaders",
 		"Security token cannot be null!");
@@ -210,11 +212,13 @@ public abstract class WSSecurityBasedCredentials extends ExchangeCredentials {
         // </wsu:Timestamp>
         //
         String timestamp = null;
-        if (this.addTimestamp) {
+        if (this.addTimestamp)
+        {
           	Calendar utcNow=Calendar.getInstance();
         	utcNow.add(Calendar.MINUTE, 5);
         	timestamp=String.format(WSSecurityBasedCredentials.wsuTimeStampFormat,utcNow,utcNow);
-        }
+        			
+        	}
 
 		// Format the WS-Security header based on all the information we have.
 		String wsSecurityHeader = String.format(

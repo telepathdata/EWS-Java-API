@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  * Represents an extended property.
  * 
@@ -101,9 +99,12 @@ public final class ExtendedProperty extends ComplexProperty {
 			throws ServiceXmlSerializationException, XMLStreamException {
 		this.getPropertyDefinition().writeToXml(writer);
 
-		if (MapiTypeConverter.isArrayType(this.getPropertyDefinition().getMapiType())) {
+		if (MapiTypeConverter.isArrayType(this.getPropertyDefinition()
+				.getMapiType())) {
 			ArrayList array = (ArrayList) this.getValue();
-			writer.writeStartElement(XmlNamespace.Types, XmlElementNames.Values);
+			writer
+					.writeStartElement(XmlNamespace.Types,
+							XmlElementNames.Values);
 			for (int index = 0; index <= array.size(); index++) {
 				writer.writeElementValue(XmlNamespace.Types,
 						XmlElementNames.Value, MapiTypeConverter
@@ -114,7 +115,8 @@ public final class ExtendedProperty extends ComplexProperty {
 		} else {
 			writer.writeElementValue(XmlNamespace.Types, XmlElementNames.Value,
 					MapiTypeConverter.convertToString(this
-							.getPropertyDefinition().getMapiType(), this.getValue()));
+							.getPropertyDefinition().getMapiType(), this
+							.getValue()));
 		}
 	}
 
@@ -148,7 +150,8 @@ public final class ExtendedProperty extends ComplexProperty {
 		EwsUtilities.validateParam(val, "value");
 		if (this.canSetFieldValue(this.value, MapiTypeConverter.changeType(this
 				.getPropertyDefinition().getMapiType(), val))) {
-			this.value = MapiTypeConverter.changeType(this.getPropertyDefinition().getMapiType(), val);
+			this.value = MapiTypeConverter.changeType(this
+					.getPropertyDefinition().getMapiType(), val);
 			this.changed();
 		}
 	}
@@ -159,7 +162,8 @@ public final class ExtendedProperty extends ComplexProperty {
 	 * @return String
 	 */
 	private String getStringValue() {
-		if (MapiTypeConverter.isArrayType(this.getPropertyDefinition().getMapiType())) {
+		if (MapiTypeConverter.isArrayType(this.getPropertyDefinition()
+				.getMapiType())) {
 			ArrayList array = (ArrayList) this.getValue();
 			if (array == null) {
 				return null;
@@ -168,7 +172,8 @@ public final class ExtendedProperty extends ComplexProperty {
 				sb.append("[");
 				for (int index = 0; index <= array.size(); index++) {
 					sb.append(MapiTypeConverter.convertToString(this
-							.getPropertyDefinition().getMapiType(), array.get(index)));
+							.getPropertyDefinition().getMapiType(), array
+							.get(index)));
 					sb.append(",");
 				}
 				sb.append("]");

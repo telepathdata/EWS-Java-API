@@ -6,9 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentNullException;
-import microsoft.exchange.webservices.data.exceptions.ArgumentOutOfRangeException;
-
 
 /**
  * Table of atomized String objects.

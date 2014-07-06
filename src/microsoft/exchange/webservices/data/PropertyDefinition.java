@@ -12,13 +12,6 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceObjectPropertyException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  * Represents the definition of a folder or item property.
  * 
@@ -255,7 +248,7 @@ ServiceObjectPropertyDefinition {
 	 * @return The property definition's printable name.
 	 */
 	@Override
-	public String getPrintableName() {
+	protected String getPrintableName() {
 		return this.getName();
 	}
 }

@@ -12,9 +12,6 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.AutodiscoverLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * The Interface FuncDelegateInterface.
  * 

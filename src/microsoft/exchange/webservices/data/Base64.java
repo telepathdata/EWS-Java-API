@@ -9,51 +9,30 @@ package microsoft.exchange.webservices.data;
 /**
  * Represents a base 64 class.
  */
-public final class Base64 {
+ class Base64 {
 	
 	/** The data. */
 	static byte[] dataArry;
-
-	
 	
 	/** The char set. */
-	static String strSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	static String strSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZab" +
+			"cdefghijklmnopqrstuvwxyz0123456789+/";
 
-	
-	//ascii support
-	static boolean bNotAscii = false;
-		
-		
 	static {
 		dataArry = new byte[64];
 		for (int i = 0; i < 64; i++) {
 			byte s = (byte)strSet.charAt(i);
 			dataArry[i] = s;
 		}
-		
-		
-		/* Determine if platform is not using ASCII. */
-		try {
-			String strNotAscii = System.getProperty("platform.notASCII");
-			if ( (strNotAscii != null) && !strNotAscii.isEmpty() && (strNotAscii.equalsIgnoreCase("true")))	{
-				bNotAscii = true;
-			}
-		}
-		catch(Exception e) {
-		}
-			
 	}
 
-	
-		
-	
-	
-	
-	
 	/**
 	 * Encodes String.
-	 * @param data The String to be encoded
-	 * @return String encoded value of String
+	 * 
+	 * @param data
+	 *            The String to be encoded
+	 * @return String
+	 * 			  encoded value of String
 	 */
 	public static String encode(String data) {
 		return encode(data.getBytes());
@@ -61,21 +40,26 @@ public final class Base64 {
 
 	/**
 	 * Encodes  byte array.
-	 * @param byteArry The value
-	 * @return String encoded result of byte array
+	 *
+	 * @param byteArry 
+	 * 			  The value
+	 * @return String 
+	 * 				encoded result of byte array
 	 */
+
 	public static String encode(byte[] byteArry) {
 		return encode(byteArry, 0, byteArry.length);
 	}
 
-	
 	/**
 	 * Encodes  byte array.
+	 *
 	 * @param byteArry The byte array to encode
 	 * @param startIndex The starting index of array
 	 * @param length Length of byte array
 	 * @return String, encoded result of byte array
 	 */
+
 	public static String encode(byte[] byteArry, int startIndex, int length) {
 		byte[] resArry = new byte[(length + 2) / 3 * 4 + length / 72];
 		int curState = 0; // Current state
@@ -120,22 +104,8 @@ public final class Base64 {
 			resArry[resIndex++] = (byte)'=';
 			break;
 		}
-		//return new String(resArry);
-		
-		//ascii management
-		if (!bNotAscii) 	{
-			return new String(resArry);
-		}
-		else {
-			try {
-				return new String(resArry, "windows-1252"); /* TODO: Is this guaranteed to exist for all Java? */
-			}
-			catch (Exception e) {
-				return new String(resArry);
-			}
-		}
+		return new String(resArry);
 	}
-
 
 	/**
 	 * Decodes String value.
@@ -143,6 +113,7 @@ public final class Base64 {
 	 * @param data Encoded value
 	 * @return The byte array of decoded value
 	 */
+
 	public static byte[] decode(String data) {
 		int last = 0; // end state
 		if (data.endsWith("=")) {
@@ -182,7 +153,4 @@ public final class Base64 {
 		}
 		return byteArry;
 	}
-	
-	
-	
 }

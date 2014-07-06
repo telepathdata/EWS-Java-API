@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Date;
 
-
 /***
  * Represents an attendee to a meeting.
  * 

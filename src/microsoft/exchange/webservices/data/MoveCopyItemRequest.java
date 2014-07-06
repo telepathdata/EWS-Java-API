@@ -6,7 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 /**
  * * Represents an abstract Move/Copy Item request. <typeparam
  * name="TResponse">The type of the response.</typeparam>

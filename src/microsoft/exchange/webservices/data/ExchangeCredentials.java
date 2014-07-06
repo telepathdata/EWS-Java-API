@@ -9,11 +9,10 @@ package microsoft.exchange.webservices.data;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-
-import microsoft.exchange.webservices.data.exceptions.InvalidOperationException;
 
 /**
  * Base class of Exchange credential types.
@@ -131,7 +130,7 @@ public abstract class ExchangeCredentials {
     /** 
      * Gets the flag indicating whether any sign action need taken.
      */
-    public  boolean isNeedSignature()
+    protected  boolean isNeedSignature()
     {
          return false; 
     }
@@ -141,7 +140,7 @@ public abstract class ExchangeCredentials {
      *  
      * @param memoryStream The memory stream.
      */ 
-    public  void sign(ByteArrayOutputStream memoryStream)throws Exception
+    protected  void sign(ByteArrayOutputStream memoryStream)throws Exception
     {
         throw new InvalidOperationException();
     }
@@ -157,7 +156,7 @@ public abstract class ExchangeCredentials {
 	 * @throws XMLStreamException
 	 *             the xML stream exception
 	 */
-    public void serializeWSSecurityHeaders(XMLStreamWriter writer)
+	protected void serializeWSSecurityHeaders(XMLStreamWriter writer)
 			throws XMLStreamException {
 		// do nothing by default.
 	}

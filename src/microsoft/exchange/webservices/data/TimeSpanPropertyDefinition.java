@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.EnumSet;
 
-
 /**
  * Represents TimeSpan property definition.
  */

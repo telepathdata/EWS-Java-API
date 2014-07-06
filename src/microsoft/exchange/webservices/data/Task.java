@@ -9,9 +9,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Date;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-
 /**
  * Represents a Task item. Properties available on tasks are defined in the
  * TaskSchema class.

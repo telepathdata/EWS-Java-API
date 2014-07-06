@@ -6,7 +6,7 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * The Class Base64EncoderStream.
@@ -165,7 +165,7 @@ import java.util.ArrayList;
 				str.append(dstr.charAt(j));
 			}
 		}
-		ArrayList<Byte> retval = new ArrayList<Byte>();
+		Vector<Byte> retval = new Vector();
 		if (str.length() == 0) {
 			return new byte[retval.size()];
 		}
@@ -189,9 +189,11 @@ import java.util.ArrayList;
 			by2 = decode(c2);
 			by3 = decode(c3);
 			by4 = decode(c4);
-			retval.add(Byte.valueOf((byte)((byte)(by1 << 2) | (byte)(by2 >> 4))));
+			retval.add(Byte
+					.valueOf((byte)((byte)(by1 << 2) | (byte)(by2 >> 4))));
 			if (c3 != '=') {
-				retval.add(Byte.valueOf((byte)(((by2 & 0xf) << 4) | (by3 >> 2))));
+				retval.add(Byte
+						.valueOf((byte)(((by2 & 0xf) << 4) | (by3 >> 2))));
 			}
 			if (c4 != '=') {
 				retval.add(Byte.valueOf((byte)(((by3 & 0x3) << 6) | by4)));

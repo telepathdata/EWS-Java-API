@@ -6,7 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 /**
  *Represents the response to a GetPhoneCall operation.
  * 

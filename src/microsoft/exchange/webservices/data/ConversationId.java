@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentNullException;
-
 /**
  * Represents the Id of a Conversation.
  */

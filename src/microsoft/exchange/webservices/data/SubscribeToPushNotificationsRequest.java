@@ -10,9 +10,6 @@ import java.net.URI;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * The Class SubscribeToPushNotificationsRequest.
  */

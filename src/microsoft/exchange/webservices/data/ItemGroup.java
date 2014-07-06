@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * Represents a group of items as returned by grouped item search operations.
  * 
@@ -55,9 +54,9 @@ public final class ItemGroup<TItem extends Item> {
 	/**
 	 * Sets an index identifying the group.	 
 	 */   
-	/*private void setGroupIndex(String value) {
+	private void setGroupIndex(String value) {
 		this.groupIndex = value;	
-	}*/
+	}
 
 	/**
 	 * Gets a collection of the items in this group.
@@ -73,7 +72,7 @@ public final class ItemGroup<TItem extends Item> {
 	 * 
 	 * @return the items
 	 */	
-	/*private void setItems(Collection<TItem> value) {
+	private void setItems(Collection<TItem> value) {
 		this.items = value;
-	}*/
+	}
 }

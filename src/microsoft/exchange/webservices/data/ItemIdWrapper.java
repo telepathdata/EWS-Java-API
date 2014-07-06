@@ -6,7 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 /***
  * Represents an item Id provided by a ItemId object.
  */

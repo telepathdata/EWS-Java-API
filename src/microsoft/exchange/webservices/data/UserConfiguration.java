@@ -10,11 +10,6 @@ import java.util.EnumSet;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.InvalidOperationException;
-import microsoft.exchange.webservices.data.exceptions.PropertyException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents an object that can be used to store user-defined configuration
  * settings.
@@ -170,11 +165,11 @@ public class UserConfiguration {
 			throws Exception {
 		EwsUtilities.validateParam(service, "service");
 
-		if (service.getRequestedServerVersion().ordinal() < ObjectVersion.ordinal())
+		if (service.getRequestedServerVersion().ordinal() < this.ObjectVersion.ordinal())
 		 {
 			throw new ServiceVersionException(String.format(
 					Strings.ObjectTypeIncompatibleWithRequestVersion, this
-							.getClass().getName(), ObjectVersion));
+							.getClass().getName(), this.ObjectVersion));
 		}
 
 		this.service = service;

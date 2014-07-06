@@ -29,7 +29,6 @@ class EwsX509TrustManager implements X509TrustManager
 	 * Constructor for EasyX509TrustManager.
 	 */
 	public EwsX509TrustManager(KeyStore keystore, TrustManager trustManager) throws NoSuchAlgorithmException, KeyStoreException {
-		
 		super();
 		if(trustManager == null) {
 			TrustManagerFactory factory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());

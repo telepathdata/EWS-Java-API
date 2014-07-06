@@ -11,7 +11,7 @@ import javax.xml.stream.XMLStreamConstants;
 /**
  * The Class XMLNodeType.
  */
-public class XMLNodeType implements XMLStreamConstants {
+class XMLNodeType implements XMLStreamConstants {
 
 	/** The node type. */
 	int nodeType;

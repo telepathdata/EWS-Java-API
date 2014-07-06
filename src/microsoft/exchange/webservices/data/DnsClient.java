@@ -18,12 +18,10 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
-import microsoft.exchange.webservices.data.exceptions.DnsException;
-
 /**
  * Class that represents DNS Query client.
  */
-public class DnsClient {
+class DnsClient {
 
 	/**
 	 * Performs Dns query.
@@ -41,7 +39,7 @@ public class DnsClient {
 	 *             the dns exception
 	 */
 
-	public static <T extends DnsRecord> List<T> dnsQuery(Class<T> cls,
+	protected static <T extends DnsRecord> List<T> dnsQuery(Class<T> cls,
 			String domain, String dnsServerAddress) throws DnsException {
 
 		List<T> dnsRecordList = new ArrayList<T>();

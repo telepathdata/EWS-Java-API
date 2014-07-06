@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents an entry of an EmailAddressDictionary.
  */
@@ -157,6 +155,7 @@ public final class EmailAddressEntry extends
 	 * @param complexProperty
 	 *            the complex property
 	 */
+	@SuppressWarnings("unused")
 	private void emailAddressChanged(ComplexProperty complexProperty) {
 		this.changed();
 	}

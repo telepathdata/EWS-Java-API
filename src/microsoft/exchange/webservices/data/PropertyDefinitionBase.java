@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  * Represents the base class for all property definitions.
  */
@@ -87,12 +85,12 @@ public abstract class PropertyDefinitionBase {
 	 * 
 	 * @return The property definition's printable name.
 	 */
-	public abstract String getPrintableName();
+	protected abstract String getPrintableName();
 	
 	/***
 	 * Gets the type of the property.
 	 */
-	public abstract Class<? extends Object> getType();
+	public abstract Class getType();
 	
 	/**
 	 * * Writes to XML.

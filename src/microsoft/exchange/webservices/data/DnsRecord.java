@@ -7,8 +7,6 @@
 
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.DnsException;
-
 /**
  * Represents a DnsRecord.
  */

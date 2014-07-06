@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 /***
  * Represents the response to a Conversation search operation.
  */

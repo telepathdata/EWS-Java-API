@@ -10,8 +10,6 @@ import java.util.Date;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /**
  * Represents an event as exposed by push and pull notifications.
  * 

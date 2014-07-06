@@ -17,14 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import microsoft.exchange.webservices.data.exceptions.AccountIsLockedException;
-import microsoft.exchange.webservices.data.exceptions.ArgumentOutOfRangeException;
-import microsoft.exchange.webservices.data.exceptions.AutodiscoverLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceRemoteException;
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
+import java.util.concurrent.FutureTask;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -77,7 +70,7 @@ public final class ExchangeService extends ExchangeServiceBase implements
 			MessageDisposition messageDisposition) throws Exception {
 		CreateResponseObjectRequest request = new CreateResponseObjectRequest(
 				this, ServiceErrorHandling.ThrowOnError);
-		ArrayList<ServiceObject> serviceList = new ArrayList<ServiceObject>();
+		Collection<ServiceObject> serviceList = new ArrayList();
 		serviceList.add(responseObject);
 		request.setParentFolderId(parentFolderId);
 		request.setItems(serviceList);
@@ -347,12 +340,14 @@ public final class ExchangeService extends ExchangeServiceBase implements
 		EwsUtilities.validateParam(folderId, "folderId");
 		EwsUtilities.validateParam(propertySet, "propertySet");
 
-		GetFolderRequest request = new GetFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+		GetFolderRequest request = new GetFolderRequest(this,
+				ServiceErrorHandling.ThrowOnError);
 
 		request.getFolderIds().add(folderId);
 		request.setPropertySet(propertySet);
 
-		ServiceResponseCollection<GetFolderResponse> responses = request.execute();
+		ServiceResponseCollection<GetFolderResponse> responses = request
+				.execute();
 
 		return responses.getResponseAtIndex(0).getFolder();
 
@@ -373,7 +368,6 @@ public final class ExchangeService extends ExchangeServiceBase implements
 	 * @throws Exception
 	 *             the exception
 	 */
-	@SuppressWarnings("unchecked")
 	protected <TFolder extends Folder> TFolder bindToFolder(Class<TFolder> cls,
 			FolderId folderId, PropertySet propertySet) throws Exception {
 
@@ -383,7 +377,8 @@ public final class ExchangeService extends ExchangeServiceBase implements
 			return (TFolder) result;
 		} else {
 			throw new ServiceLocalException(String.format("%s,%s,%s",
-					Strings.FolderTypeNotCompatible, result.getClass().getName(), cls.getName()));
+					Strings.FolderTypeNotCompatible, result.getClass()
+							.getName(), cls.getName()));
 		}
 	}
 
@@ -947,11 +942,12 @@ public final class ExchangeService extends ExchangeServiceBase implements
 	 * @throws Exception
 	 *             the exception
 	 */
+	@SuppressWarnings("unchecked")
 	public FindItemsResults<Item> findItems(FolderId parentFolderId,
 			String queryString, ItemView view) throws Exception {
 		EwsUtilities.validateParamAllowNull(queryString, "queryString");
 
-		List<FolderId> folderIdArray = new ArrayList<FolderId>();
+		List folderIdArray = new ArrayList();
 		folderIdArray.add(parentFolderId);
 
 		ServiceResponseCollection<FindItemResponse<Item>> responses = this
@@ -976,10 +972,11 @@ public final class ExchangeService extends ExchangeServiceBase implements
 	 * @throws Exception
 	 *             the exception
 	 */
+	@SuppressWarnings("unchecked")
 	public FindItemsResults<Item> findItems(FolderId parentFolderId,
 			SearchFilter searchFilter, ItemView view) throws Exception {
 		EwsUtilities.validateParamAllowNull(searchFilter, "searchFilter");
-		List<FolderId> folderIdArray = new ArrayList<FolderId>();
+		List folderIdArray = new ArrayList();
 		folderIdArray.add(parentFolderId);
 		ServiceResponseCollection<FindItemResponse<Item>> responses = this
 				.findItems(folderIdArray, searchFilter, null, /* queryString */
@@ -1001,9 +998,10 @@ public final class ExchangeService extends ExchangeServiceBase implements
 	 * @throws Exception
 	 *             the exception
 	 */
+	@SuppressWarnings("unchecked")
 	public FindItemsResults<Item> findItems(FolderId parentFolderId,
 			ItemView view) throws Exception {
-		List<FolderId> folderIdArray = new ArrayList<FolderId>();
+		List folderIdArray = new ArrayList();
 		folderIdArray.add(parentFolderId);
 		ServiceResponseCollection<FindItemResponse<Item>> responses = this
 				.findItems(folderIdArray, null, /* searchFilter */
@@ -1427,7 +1425,6 @@ public final class ExchangeService extends ExchangeServiceBase implements
 	 * @throws Exception
 	 *             the exception
 	 */
-	@SuppressWarnings("unchecked")
 	protected <TItem extends Item> TItem bindToItem(Class<TItem> c,
 			ItemId itemId, PropertySet propertySet) throws Exception {
 		Item result = this.bindToItem(itemId, propertySet);
@@ -1435,7 +1432,8 @@ public final class ExchangeService extends ExchangeServiceBase implements
 			return (TItem) result;
 		} else {
 			throw new ServiceLocalException(String.format(
-					Strings.ItemTypeNotCompatible, result.getClass().getName(), c.getName()));
+					Strings.ItemTypeNotCompatible, result.getClass().getName(),
+					c.getName()));
 		}
 		// return (TItem)result;
 	}
@@ -1544,12 +1542,13 @@ public final class ExchangeService extends ExchangeServiceBase implements
 			Iterable<Attachment> attachments, BodyType bodyType,
 			Iterable<PropertyDefinitionBase> additionalProperties,
 			ServiceErrorHandling errorHandling) throws Exception {
-		
-		GetAttachmentRequest request = new GetAttachmentRequest(this, errorHandling);
+		GetAttachmentRequest request = new GetAttachmentRequest(this,
+				errorHandling);
 
-		Iterator<Attachment> it = attachments.iterator();
+		Iterator it = attachments.iterator();
 		while (it.hasNext()) {
-			request.getAttachments().add(it.next());
+			((ArrayList) request.getAttachments()).add(it.next());
+
 		}
 		request.setBodyType(bodyType);
 
@@ -3498,11 +3497,12 @@ public final class ExchangeService extends ExchangeServiceBase implements
 			IdFormat destinationFormat) throws Exception {
 		EwsUtilities.validateParam(id, "id");
 
-		List<AlternateIdBase> alternateIdBaseArray = new ArrayList<AlternateIdBase>();
+		List alternateIdBaseArray = new ArrayList();
 		alternateIdBaseArray.add(id);
 
 		ServiceResponseCollection<ConvertIdResponse> responses = this
-				.internalConvertIds(alternateIdBaseArray, destinationFormat, ServiceErrorHandling.ThrowOnError);
+				.internalConvertIds(alternateIdBaseArray, destinationFormat,
+						ServiceErrorHandling.ThrowOnError);
 
 		return responses.getResponseAtIndex(0).getConvertedId();
 	}
@@ -4039,7 +4039,8 @@ public final class ExchangeService extends ExchangeServiceBase implements
 	 */
 	private URI adjustServiceUriFromCredentials(URI uri)
 			throws Exception {
-		return (this.getCredentials() != null) ? this.getCredentials().adjustUrl(uri) : uri;
+		return (this.getCredentials() != null) ? this.getCredentials()
+				.adjustUrl(uri) : uri;
 	}
 
 	/**
@@ -4076,7 +4077,8 @@ public final class ExchangeService extends ExchangeServiceBase implements
 
 		switch (response.getErrorCode()) {
 		case NoError:
-			return this.getEwsUrlFromResponse(response, Boolean.TRUE);
+			return this.getEwsUrlFromResponse(response, autodiscoverService
+					.isExternal().TRUE);
 
 		case InvalidUser:
 			throw new ServiceRemoteException(String.format(Strings.InvalidUser,
@@ -4163,7 +4165,7 @@ public final class ExchangeService extends ExchangeServiceBase implements
 	 *             the service local exception
 	 */
 	@Override
-	public void validate() throws ServiceLocalException {
+	protected void validate() throws ServiceLocalException {
 		super.validate();
 		if (this.getUrl() == null) {
 			throw new ServiceLocalException(Strings.ServiceUrlMustBeSet);
@@ -4226,7 +4228,8 @@ public final class ExchangeService extends ExchangeServiceBase implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return this.prepareHttpWebRequestForUrl(url, this.getAcceptGzipEncoding(), true);
+		return this.prepareHttpWebRequestForUrl(url, this
+				.getAcceptGzipEncoding(), true);
 	}
 
 	/**

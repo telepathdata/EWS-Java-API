@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * Represents an abstract delegate management request. <typeparam
  * name="TResponse">The type of the response.</typeparam>
@@ -94,7 +92,6 @@ abstract class DelegateManagementRequestBase
 	 * @throws Exception
 	 *             the exception
 	 */
-	@SuppressWarnings("unchecked")
 	protected TResponse execute() throws Exception {
 		TResponse serviceResponse = (TResponse) this.internalExecute();
 		serviceResponse.throwIfNecessary();

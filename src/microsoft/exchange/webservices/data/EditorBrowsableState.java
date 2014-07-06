@@ -9,7 +9,7 @@ package microsoft.exchange.webservices.data;
 /**
  * The Enum EditorBrowsableState.
  */
-public enum EditorBrowsableState {
+ enum EditorBrowsableState {
 
 	// Summary:
 	// The property or method is always browsable from within an editor.

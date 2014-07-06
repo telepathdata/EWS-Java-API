@@ -11,9 +11,7 @@ import java.util.HashMap;
 /**
  * The Class MapiTypeConverterMap.
  */
- class MapiTypeConverterMap extends HashMap<MapiPropertyType, MapiTypeConverterMapEntry> {
-
-	
-	private static final long serialVersionUID = -5676194678265331972L;
+ class MapiTypeConverterMap extends
+HashMap<MapiPropertyType, MapiTypeConverterMapEntry> {
 
 }

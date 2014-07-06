@@ -9,10 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * The Class UpdateItemRequest.
  */

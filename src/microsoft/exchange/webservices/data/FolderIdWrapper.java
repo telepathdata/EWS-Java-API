@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-
 /***
  * Represents a folder Id provided by a FolderId object.
  */

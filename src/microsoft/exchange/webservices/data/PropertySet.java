@@ -15,10 +15,6 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  *Represents a set of item or folder properties. Property sets are used to
  * indicate what properties of an item or folder should be loaded when binding

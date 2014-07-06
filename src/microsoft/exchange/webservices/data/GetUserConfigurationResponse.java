@@ -8,9 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /**
  * Represents a response to a GetUserConfiguration request.
  */

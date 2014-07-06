@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceObjectPropertyException;
-
 /**
  * Represents a Contact Group. Properties available on contact groups are
  * defined in the ContactGroupSchema class.

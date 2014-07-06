@@ -16,8 +16,6 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -32,7 +30,7 @@ import org.w3c.dom.Text;
 /**
  * * Stax based XML Writer implementation.
  */
-public class EwsServiceXmlWriter implements IDisposable {
+class EwsServiceXmlWriter implements IDisposable {
 
 	/** The is disposed. */
 	private boolean isDisposed;
@@ -63,7 +61,7 @@ public class EwsServiceXmlWriter implements IDisposable {
 	 * @throws XMLStreamException
 	 *             the xML stream exception
 	 */
-	public EwsServiceXmlWriter(ExchangeServiceBase service, 
+	protected EwsServiceXmlWriter(ExchangeServiceBase service, 
 			OutputStream stream) throws XMLStreamException {
 		this.service = service;
 		XMLOutputFactory xmlof = XMLOutputFactory.newInstance();

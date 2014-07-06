@@ -12,8 +12,6 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /**
  * Represents Outlook configuration settings.
  * 

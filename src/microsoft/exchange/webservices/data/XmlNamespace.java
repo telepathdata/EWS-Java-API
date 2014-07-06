@@ -6,13 +6,12 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 /**
  * Defines the namespaces as used by the EwsXmlReader, EwsServiceXmlReader, and
  * EwsServiceXmlWriter classes.
  * 
  */
-public enum XmlNamespace {
+enum XmlNamespace {
 	/*
 	 * The namespace is not specified.
 	 */
@@ -50,10 +49,12 @@ public enum XmlNamespace {
 			EwsUtilities.WSTrustFebruary2005Namespace),
 
 	/** The WS addressing. */
-	WSAddressing(EwsUtilities.WSAddressingNamespacePrefix, EwsUtilities.WSAddressingNamespace),
+	WSAddressing(EwsUtilities.WSAddressingNamespacePrefix,
+			EwsUtilities.WSAddressingNamespace),
 
 	/** The Autodiscover. */
-	Autodiscover(EwsUtilities.AutodiscoverSoapNamespacePrefix, EwsUtilities.AutodiscoverSoapNamespace);
+	Autodiscover(EwsUtilities.AutodiscoverSoapNamespacePrefix,
+			EwsUtilities.AutodiscoverSoapNamespace);
 
 	/** The prefix. */
 	private String prefix;

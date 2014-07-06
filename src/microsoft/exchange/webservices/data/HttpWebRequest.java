@@ -13,21 +13,17 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.KeyManagementException;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import javax.net.ssl.TrustManager;
 
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-import microsoft.exchange.webservices.data.exceptions.HttpErrorException;
-
-import org.apache.http.HttpException;
+import org.apache.commons.httpclient.HttpException;
 
 /**
  * The Class HttpWebRequest.
  */
- public abstract class HttpWebRequest {
+ abstract class HttpWebRequest {
 
 	/** The url. */
 	private URL url;
@@ -461,11 +457,8 @@ import org.apache.http.HttpException;
 	 * 
 	 * @throws EWSHttpException
 	 *             the eWS http exception
-	 * @throws KeyStoreException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws KeyManagementException 
 	 */
-	public abstract void prepareConnection() throws EWSHttpException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException;
+	public abstract void prepareConnection() throws EWSHttpException;
 
 	/**
 	 * Gets the response headers.
@@ -530,11 +523,8 @@ import org.apache.http.HttpException;
 	 * 
 	 * @throws EWSHttpException
 	 *             the eWS http exception
-	 * @throws KeyStoreException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws KeyManagementException 
 	 */
-	public abstract void prepareAsyncConnection() throws EWSHttpException, UnsupportedEncodingException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException;
+	public abstract void prepareAsyncConnection() throws EWSHttpException, UnsupportedEncodingException;
 	
 	/**
 	 * Gets the request properties.
@@ -571,7 +561,7 @@ import org.apache.http.HttpException;
 	 * @throws IOException
 	 *             the IO Exception
 	 */
-	public abstract void executeRequest() throws EWSHttpException, HttpErrorException, IOException, HttpException;
+	public abstract int executeRequest() throws EWSHttpException, HttpErrorException, IOException;
 
 	public IAsyncResult beginGetResponse(Object webRequestAsyncCallback,
 			WebAsyncCallStateAnchor wrappedState) {

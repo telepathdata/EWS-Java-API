@@ -17,7 +17,6 @@ import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -68,7 +67,6 @@ final class ExecuteDiagnosticMethodResponse extends ServiceResponse {
 	 * @return document
 	 * @throws ParserConfigurationException
 	 */
-	@SuppressWarnings("rawtypes")
 	public Document retriveDocument(XMLEventReader xmlEventReader)
 			throws ParserConfigurationException {
 		DocumentBuilderFactory dbfInstance = DocumentBuilderFactory
@@ -94,7 +92,8 @@ final class ExecuteDiagnosticMethodResponse extends ServiceResponse {
 				// startElement((StartElement) xmleve,doc);
 				StartElement ele = (StartElement) xmleve;
 				Element element = null;
-				element = document.createElementNS(ele.getName().getNamespaceURI(), ele.getName().getLocalPart());
+				element = document.createElementNS(ele.getName()
+						.getNamespaceURI(), ele.getName().getLocalPart());
 
 				Iterator ite = ele.getAttributes();
 
@@ -142,7 +141,7 @@ final class ExecuteDiagnosticMethodResponse extends ServiceResponse {
 	/**
 	 * Sets the return value.
 	 */
-	/*private void setReturnValue(Document value) {
+	private void setReturnValue(Document value) {
 		returnValue = value;
-	}*/
+	}
 }

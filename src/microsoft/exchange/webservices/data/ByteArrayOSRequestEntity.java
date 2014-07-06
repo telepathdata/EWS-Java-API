@@ -10,11 +10,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.http.Header;
-import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.message.BasicHeader;
+import org.apache.commons.httpclient.methods.RequestEntity;
 
-class ByteArrayOSRequestEntity extends BasicHttpEntity {
+class ByteArrayOSRequestEntity implements RequestEntity{
 
 	private ByteArrayOutputStream os = null;
 	
@@ -32,26 +30,18 @@ class ByteArrayOSRequestEntity extends BasicHttpEntity {
 	}
 
 	@Override
-	public Header getContentType() {
-		return new BasicHeader("Content-Type", "text/xml; charset=utf-8");
+	public String getContentType() {
+		return "text/xml; charset=utf-8";
 	}
-	
-	
+
 	@Override
 	public boolean isRepeatable() {
 		return true;
 	}
 
 	@Override
-	public void writeTo(OutputStream out) throws IOException {
+	public void writeRequest(OutputStream out) throws IOException {
 		os.writeTo(out);		
-	}
-
-	
-
-	@Override
-	public boolean isStreaming() {
-		return false;
 	}
 
 }

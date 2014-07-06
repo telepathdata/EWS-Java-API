@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Iterator;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentOutOfRangeException;
-
 /***
  * Defines the RuleOperationError class. 
  */
@@ -94,7 +92,7 @@ ComplexProperty implements Iterable<RuleError> {
 	/**
 	 * Set operation property by the index of a given opeation enumerator.
 	 */
-	public void setOperationByIndex(Iterator<RuleOperation> operations) {
+	protected void setOperationByIndex(Iterator<RuleOperation> operations) {
 		for (int i = 0; i <= this.operationIndex; i++) {
 			operations.next();
 		}

@@ -119,7 +119,7 @@ public class ConversationSchema extends ServiceObjectSchema {
         /** The Constant GlobalItemIds. */
         public static final String GlobalItemIds = "conversation:GlobalItemIds";
 
-		//public static String ItemId;
+		public static String ItemId;
     }
     
     /**

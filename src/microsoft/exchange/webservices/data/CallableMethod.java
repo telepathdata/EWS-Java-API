@@ -1,28 +1,20 @@
 package microsoft.exchange.webservices.data;
 import java.io.IOException;
-import java.util.concurrent.Callable;
-
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-import microsoft.exchange.webservices.data.exceptions.HttpErrorException;
-
-import org.apache.http.HttpException;
-
-
-
-public class CallableMethod implements Callable<HttpWebRequest> {
+import java.util.concurrent.*;
+public class CallableMethod implements Callable {
 	HttpWebRequest request;
-	
-	
 	CallableMethod(HttpWebRequest request){
 		this.request= request;
 	}
 
-	protected HttpClientWebRequest executeMethod() throws EWSHttpException, HttpErrorException, IOException, HttpException{
+	protected HttpClientWebRequest executeMethod() throws EWSHttpException, HttpErrorException, IOException{
+		
 		 request.executeRequest();
 		 return (HttpClientWebRequest)request;
 	}
 	
-	public HttpWebRequest call() throws HttpException{
+	public  HttpWebRequest call(){
+		
 		try {
 			return executeMethod();
 		} catch (EWSHttpException e) {
@@ -37,7 +29,4 @@ public class CallableMethod implements Callable<HttpWebRequest> {
 		}
 		return request;
 	}
-	
-	
-	
 }

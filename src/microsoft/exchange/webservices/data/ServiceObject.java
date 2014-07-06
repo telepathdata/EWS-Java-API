@@ -10,11 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.InvalidOperationException;
-import microsoft.exchange.webservices.data.exceptions.NotSupportedException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceObjectPropertyException;
-
 /***
  * Represents the base abstract class for all item and folder types.
  * 

@@ -13,10 +13,6 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /***
  * Represents the standard response to an Exchange Web Services operation.
  * 
@@ -52,7 +48,7 @@ public class ServiceResponse {
 	 * @param soapFaultDetails
 	 *            The SOAP fault details.
 	 */
-	public ServiceResponse(SoapFaultDetails soapFaultDetails) {
+	protected ServiceResponse(SoapFaultDetails soapFaultDetails) {
 		this.result = ServiceResult.Error;
 		this.errorCode = soapFaultDetails.getResponseCode();
 		this.errorMessage = soapFaultDetails.getFaultString();

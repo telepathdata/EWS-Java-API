@@ -7,7 +7,6 @@
 
 package microsoft.exchange.webservices.data;
 
-
 /**
  * Represents information about an attendee for which to request availability
  * information.

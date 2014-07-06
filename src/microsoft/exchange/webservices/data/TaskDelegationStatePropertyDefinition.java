@@ -9,7 +9,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.EnumSet;
 
-
 /**
  * Represents a task delegation property definition.
  */

@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /***
  * Represents a change on a folder as returned by a synchronization operation.
  */

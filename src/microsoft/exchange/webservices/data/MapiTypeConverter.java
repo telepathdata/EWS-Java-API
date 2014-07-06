@@ -16,9 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import microsoft.exchange.webservices.data.exceptions.FormatException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /**
  * Utility class to convert between MAPI Property type values and strings.
  * 
@@ -337,12 +334,13 @@ class MapiTypeConverter {
 	 * @throws Exception
 	 *             the exception
 	 */
-	protected static List<Object> convertToValue(MapiPropertyType mapiPropType,
+	protected static List convertToValue(MapiPropertyType mapiPropType,
 			Iterator<String> strings) throws Exception {
 		EwsUtilities.validateParam(strings, "strings");
 
-		MapiTypeConverterMapEntry typeConverter = getMapiTypeConverterMap().get(mapiPropType);
-		List<Object> array = new ArrayList<Object>();
+		MapiTypeConverterMapEntry typeConverter = getMapiTypeConverterMap()
+				.get(mapiPropType);
+		List array = new ArrayList();
 
 		int index = 0;
 
@@ -370,7 +368,8 @@ class MapiTypeConverter {
 	protected static Object convertToValue(MapiPropertyType mapiPropType,
 			String stringValue) throws ServiceXmlDeserializationException,
 			FormatException {
-		return getMapiTypeConverterMap().get(mapiPropType).convertToValue(stringValue);
+		return getMapiTypeConverterMap().get(mapiPropType).convertToValue(
+				stringValue);
 
 	}
 

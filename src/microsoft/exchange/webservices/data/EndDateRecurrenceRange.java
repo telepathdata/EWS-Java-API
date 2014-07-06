@@ -12,8 +12,6 @@ import java.util.Date;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents recurrent range with an end date.
  * 

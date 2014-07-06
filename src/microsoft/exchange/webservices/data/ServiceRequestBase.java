@@ -11,25 +11,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
 
 import javax.xml.stream.XMLStreamException;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.http.HTTPException;
 
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-import microsoft.exchange.webservices.data.exceptions.HttpErrorException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceRequestException;
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-import microsoft.exchange.webservices.data.exceptions.XmlException;
+import org.apache.commons.httpclient.HttpException;
 
 //import org.eclipse.ecf.core.util.AsyncResult;
 
@@ -37,7 +31,7 @@ import microsoft.exchange.webservices.data.exceptions.XmlException;
  * Represents an abstract service request.
  * 
  */
-public abstract class ServiceRequestBase {
+abstract class ServiceRequestBase {
 
 	// Private Constants
 	// private final String XMLSchemaNamespace =
@@ -846,8 +840,9 @@ public abstract class ServiceRequestBase {
 			AsyncExecutor ae = new AsyncExecutor();
 
 			// ExecutorService es = CallableSingleTon.getExecutor();
-			Callable<Object> getStream = new GetStream(outparam.getParam(),	"getOutputStream");
-			Future<Object> task = ae.submit(getStream, null);
+			Callable getStream = new GetStream(outparam.getParam(),
+					"getOutputStream");
+			Future task = ae.submit(getStream, null);
 			ae.shutdown();
 			this.getService().traceHttpRequestHeaders(
 					TraceFlags.EwsRequestHttpHeaders, outparam.getParam());
@@ -890,9 +885,11 @@ public abstract class ServiceRequestBase {
 			}
 
 			else {
-				ByteArrayOutputStream requestStream = this.getWebRequestStream(task);
+				ByteArrayOutputStream requestStream = this
+						.getWebRequestStream(task);
 
-				EwsServiceXmlWriter writer1 = new EwsServiceXmlWriter(this.getService(), requestStream);
+				EwsServiceXmlWriter writer1 = new EwsServiceXmlWriter(this
+						.getService(), requestStream);
 
 				this.writeToXml(writer1);
 
@@ -923,14 +920,19 @@ public abstract class ServiceRequestBase {
 	 *            The specified HttpWebRequest
 	 *@returns An HttpWebResponse instance
 	 */
-	protected HttpWebRequest getEwsHttpWebResponse(OutParam<HttpWebRequest> outparam) throws Exception {
+	protected HttpWebRequest getEwsHttpWebResponse(
+			OutParam<HttpWebRequest> outparam) throws Exception {
 		HttpWebRequest request = outparam.getParam();
+		int code;
+
 		try {
-			request.executeRequest();
+
+			code = request.executeRequest();
 
 		} catch (HttpErrorException ex) {
-			ex.printStackTrace();
-			if (ex.getHttpErrorCode() == WebExceptionStatus.ProtocolError.ordinal()	&& ex.getMessage() != null) {
+			if (ex.getHttpErrorCode() == WebExceptionStatus.ProtocolError
+					.ordinal()
+					&& ex.getMessage() != null) {
 				this.processWebException(ex, request);
 			}
 
@@ -942,6 +944,7 @@ public abstract class ServiceRequestBase {
 			throw new ServiceRequestException(String.format(
 					Strings.ServiceRequestFailed, e.getMessage()), e);
 		}
+
 		return request;
 	}
 

@@ -12,7 +12,6 @@ package microsoft.exchange.webservices.data;
  */
 import java.util.List;
 
-
 /**
  * The Class ResponseObject.
  * 

@@ -13,8 +13,6 @@ import java.util.Random;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.DnsException;
-
 /**
  * Class that reads AutoDiscover configuration information from DNS.
  */

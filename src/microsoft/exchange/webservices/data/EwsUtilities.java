@@ -8,7 +8,12 @@ package microsoft.exchange.webservices.data;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
@@ -29,18 +34,10 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentException;
-import microsoft.exchange.webservices.data.exceptions.ArgumentNullException;
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-import microsoft.exchange.webservices.data.exceptions.FormatException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-
 /**
  * EWS utilities.
  */
-public class EwsUtilities {
+class EwsUtilities {
 
 	/** The Constant XSFalse. */
 	protected static final String XSFalse = "false";
@@ -304,7 +301,7 @@ public class EwsUtilities {
 	 * @param message
 	 *            The message to use if assertion fails.
 	 */
-	public static void EwsAssert(boolean condition, String caller,
+	protected static void EwsAssert(boolean condition, String caller,
 			String message) {
 		assert condition : String.format("[%s] %s", 
 				caller, message);
@@ -317,7 +314,7 @@ public class EwsUtilities {
 	 *            The XML namespace
 	 * @return Namespace prefix string.
 	 */
-	public static String getNamespacePrefix(XmlNamespace xmlNamespace) {
+	protected static String getNamespacePrefix(XmlNamespace xmlNamespace) {
 		return xmlNamespace.getNameSpacePrefix();
 	}
 
@@ -328,7 +325,7 @@ public class EwsUtilities {
 	 *            The XML namespace.
 	 * @return Uri as string
 	 */
-	public static String getNamespaceUri(XmlNamespace xmlNamespace) {
+	protected static String getNamespaceUri(XmlNamespace xmlNamespace) {
 		return xmlNamespace.getNameSpaceUri();
 	}
 
@@ -339,7 +336,7 @@ public class EwsUtilities {
 	 *            the namespace uri
 	 * @return the namespace from uri
 	 */
-	public static XmlNamespace getNamespaceFromUri(String namespaceUri) {
+	protected static XmlNamespace getNamespaceFromUri(String namespaceUri) {
 		if (namespaceUri.equals(EwsErrorsNamespace)) {
 			return XmlNamespace.Errors;
 		}
@@ -485,7 +482,7 @@ public class EwsUtilities {
 	/**
 	 * 
 	 */
-    protected static Class<? extends Object> getItemTypeFromXmlElementName(String xmlElementName)
+    protected static Class getItemTypeFromXmlElementName(String xmlElementName)
     {
         
        return  EwsUtilities.serviceObjectInfo.getMember().getXmlElementNameToServiceObjectClassMap().get(xmlElementName).getClass();
@@ -754,7 +751,6 @@ public class EwsUtilities {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	@SuppressWarnings("unchecked")
 	protected static <T> T parse(Class<T> cls, String value)
 			throws InstantiationException, IllegalAccessException,
 			ParseException {
@@ -795,7 +791,7 @@ public class EwsUtilities {
 			o = Integer.parseInt(value);
 			return (T) o;
 		} else if (cls.isInstance(new Date())) {
-			//Object o = null;
+			Object o = null;
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 			return (T) df.parse(value);
 		} else if (cls.isInstance(Boolean.valueOf(false)))
@@ -1168,7 +1164,7 @@ public class EwsUtilities {
 	 *				The class.
 	 * @return Printable name.
 	 */
-    public static String getPrintableTypeName(Class<?> type) {
+    public static String getPrintableTypeName(Class type) {
     	// Note: building array of generic parameters is 
     	//done recursively. Each parameter could be any type.
     	Type[] genericArgs = type.getGenericInterfaces();
@@ -1248,7 +1244,7 @@ public class EwsUtilities {
     
     public static int getDim(Object array ) {
         int dim=0;
-        Class<?> c = array.getClass();
+        Class c = array.getClass();
         while( c.isArray() ) {
           c = c.getComponentType();
           dim++;

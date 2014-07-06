@@ -10,7 +10,7 @@ package microsoft.exchange.webservices.data;
  * Represents the response to a UpdateInboxRulesResponse operation.
  * @param <RuleOperationErrorCollection>
  */
-public final class UpdateInboxRulesResponse extends ServiceResponse{
+final class UpdateInboxRulesResponse extends ServiceResponse{
 	
 	/***
 	 * Rule operation error collection.
@@ -52,7 +52,7 @@ public final class UpdateInboxRulesResponse extends ServiceResponse{
 	/***
 	 * Gets the rule operation errors in the response.
 	 */     
-	public RuleOperationErrorCollection getErrors() {
+	protected RuleOperationErrorCollection getErrors() {
 		return this.errors;
 	}
 }

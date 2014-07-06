@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.net.URISyntaxException;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentNullException;
-
 /**
  * TokenCredentials provides credentials if you already have a token.
  */

@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
  *
  */
 
-public interface IAsyncResult extends Future<Object> {
+public interface IAsyncResult extends Future {
 
 	public Object getAsyncState();
 

@@ -12,8 +12,6 @@ package microsoft.exchange.webservices.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * The Class DeleteAttachmentRequest.
  */

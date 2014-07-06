@@ -10,8 +10,6 @@ import java.util.Date;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /**
  * Encapsulates information on the deleted occurrence of a recurring
  * appointment.

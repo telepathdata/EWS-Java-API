@@ -6,7 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 public class WebAsyncCallStateAnchor {
 	
 	ServiceRequestBase serviceRequest;

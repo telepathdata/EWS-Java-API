@@ -8,13 +8,11 @@ package microsoft.exchange.webservices.data;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /**
  * The Class UpdateItemResponse.
  */
 public final class UpdateItemResponse extends ServiceResponse implements
-		IGetObjectInstanceDelegate<ServiceObject> {
+		IGetObjectInstanceDelegate {
 
 	/***
 	 * Represents the response to an individual item update operation.
@@ -35,7 +33,8 @@ public final class UpdateItemResponse extends ServiceResponse implements
 	 */
 	protected UpdateItemResponse(Item item) {
 		super();
-		EwsUtilities.EwsAssert(item != null, "UpdateItemResponse.ctor",	"item is null");
+		EwsUtilities.EwsAssert(item != null, "UpdateItemResponse.ctor",
+				"item is null");
 		this.item = item;
 	}
 
@@ -55,6 +54,7 @@ public final class UpdateItemResponse extends ServiceResponse implements
 	 * @throws Exception
 	 *             the exception
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void readElementsFromXml(EwsServiceXmlReader reader)
 			throws ServiceXmlDeserializationException, XMLStreamException,

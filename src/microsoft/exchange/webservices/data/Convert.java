@@ -22,7 +22,7 @@ package microsoft.exchange.webservices.data;
 	 * @throws ClassCastException
 	 *             the class cast exception
 	 */
-	public static Object changeType(Object value, Class<? extends Object> cls)
+	public static Object changeType(Object value, Class cls)
 			throws ClassCastException {
 
 		if (!(cls.isPrimitive() || cls.equals(String.class))) {

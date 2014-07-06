@@ -93,9 +93,9 @@ public final class WorkingHours extends ComplexProperty {
 			this.startTime = workingPeriods.get(0).getStartTime();
 			this.endTime = workingPeriods.get(0).getEndTime();
 
-			//TODO : is there a problem there ???? second for seems to be wrong !!!
 			for (WorkingPeriod workingPeriod : workingPeriods) {
-				for (DayOfTheWeek dayOfWeek : workingPeriods.get(0).getDaysOfWeek()) {
+				for (DayOfTheWeek dayOfWeek : workingPeriods.get(0)
+						.getDaysOfWeek()) {
 					if (!this.daysOfTheWeek.contains(dayOfWeek)) {
 						this.daysOfTheWeek.add(dayOfWeek);
 					}

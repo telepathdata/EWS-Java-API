@@ -7,9 +7,8 @@
 package microsoft.exchange.webservices.data;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
-
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
 
 /**
  * Represents a CreateAttachment request.

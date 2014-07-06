@@ -9,8 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  * Represents a change of time for a time zone.
  */

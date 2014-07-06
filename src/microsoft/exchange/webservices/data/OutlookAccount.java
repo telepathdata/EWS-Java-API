@@ -9,7 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.util.HashMap;
 import java.util.List;
 
-
 /**
  * Represents an Outlook configuration settings account.
  */

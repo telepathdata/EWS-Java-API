@@ -8,11 +8,11 @@ package microsoft.exchange.webservices.data;
 
 import java.util.List;
 
-
 /***
  * Represents a response to an individual item retrieval operation.
  */
-public final class GetItemResponse extends ServiceResponse implements IGetObjectInstanceDelegate {
+public final class GetItemResponse extends ServiceResponse implements
+		IGetObjectInstanceDelegate {
 
 	/** The item. */
 	private Item item;
@@ -73,6 +73,7 @@ public final class GetItemResponse extends ServiceResponse implements IGetObject
 	 * @throws Exception
 	 *             the exception
 	 */
+	@SuppressWarnings("unused")
 	private Item getObjectInstance(ExchangeService service,
 			String xmlElementName) throws Exception {
 		if (this.getItem() != null) {

@@ -8,9 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Date;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-
 /***
  * Represents an attachment to an item.
  * 

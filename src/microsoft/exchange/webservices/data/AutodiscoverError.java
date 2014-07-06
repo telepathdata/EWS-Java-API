@@ -6,7 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-
 /***
  * Defines the AutodiscoverError class.
  * 

@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.EnumSet;
 
-
 /**
  * Represents permission set property definition.
  */
@@ -47,7 +46,7 @@ class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase{
 	 * Gets the property type.
 	 */
 	@Override
-	public Class<FolderPermissionCollection> getType() {
+	public Class getType() {
 		return FolderPermissionCollection.class; 
 	}
 }

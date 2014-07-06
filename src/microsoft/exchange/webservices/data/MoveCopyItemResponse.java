@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.List;
 
-
 /***
  * Represents a response to a Move or Copy operation.
  */
@@ -50,6 +49,7 @@ public final class MoveCopyItemResponse extends ServiceResponse implements
 	 * @throws Exception
 	 *             the exception
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void readElementsFromXml(EwsServiceXmlReader reader)
 			throws Exception {

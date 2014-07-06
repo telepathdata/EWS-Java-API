@@ -25,17 +25,15 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
 /***
  * Defines the EwsXmlReader class.
  * 
  * 
  */
-public class EwsXmlReader {
+class EwsXmlReader {
 
 	/** The Read write buffer size. */
-	//private static final int ReadWriteBufferSize = 4096;
+	private static final int ReadWriteBufferSize = 4096;
 
 	/** The xml reader. */
 	private XMLEventReader xmlReader = null;
@@ -44,7 +42,7 @@ public class EwsXmlReader {
 	private XMLEvent presentEvent;
 
 	/** The prev event. */
-	//private XMLEvent prevEvent;
+	private XMLEvent prevEvent;
 
 	/**
 	 * Initializes a new instance of the EwsXmlReader class.
@@ -85,11 +83,12 @@ public class EwsXmlReader {
 	 *            Element name
 	 * @return the string
 	 */
-	/*private static String formatElementName(String namespacePrefix,	String localElementName) {
+	private static String formatElementName(String namespacePrefix,
+			String localElementName) {
 
 		return isNullOrEmpty(namespacePrefix) ? localElementName :
 			namespacePrefix + ":" + localElementName;
-	}*/
+	}
 
 	/**
 	 * Read XML element.
@@ -178,7 +177,7 @@ public class EwsXmlReader {
 							|| characters.isWhiteSpace())
 						continue;
 				}
-				//this.prevEvent = this.presentEvent;
+				this.prevEvent = this.presentEvent;
 				this.presentEvent = event;
 				break;
 			}
@@ -1131,7 +1130,7 @@ public class EwsXmlReader {
 	 * 
 	 * @return String
 	 */
-	public String getNamespaceUri() {
+	protected String getNamespaceUri() {
 
 		String nameSpaceUri = null;
 		if (this.presentEvent.isStartElement()) {
@@ -1181,9 +1180,9 @@ public class EwsXmlReader {
 	 *            the namespace prefix
 	 * @return true, if is null or empty
 	 */
-	/*private static boolean isNullOrEmpty(String namespacePrefix) {
+	private static boolean isNullOrEmpty(String namespacePrefix) {
 		return (namespacePrefix == null || namespacePrefix.isEmpty());
 
-	}*/
+	}
 
 }

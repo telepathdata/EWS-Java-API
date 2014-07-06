@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.EnumSet;
 
-
 /***
  * Represents base complex property type.
  * 
@@ -16,13 +15,13 @@ import java.util.EnumSet;
  * @param <TComplexProperty>
  *            The type of the complex property.
  */
-class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinitionBase {
+class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty>
+		extends ComplexPropertyDefinitionBase {
 
 	private Class<TComplexProperty> instance;
-	
-	
 	/** The property creation delegate. */
-	private ICreateComplexPropertyDelegate <TComplexProperty> propertyCreationDelegate;
+	private ICreateComplexPropertyDelegate
+	<TComplexProperty> propertyCreationDelegate;
 
 	/**
 	 * * Initializes a new instance.
@@ -161,7 +160,7 @@ class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extend
 	 * Gets the property type.
 	 */
 	@Override
-	public Class<TComplexProperty> getType() {
+	public Class getType() {
 		/*ParameterizedType parameterizedType =
 	        (ParameterizedType) getClass().getGenericSuperclass();
 	     return (Class) parameterizedType.getActualTypeArguments()[0];

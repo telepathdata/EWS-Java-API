@@ -32,7 +32,7 @@ public class ItemSchema extends ServiceObjectSchema {
 		String MimeContent = "item:MimeContent";
 
 		/** The Attachments. */
-		//String Attachments = "item:Attachments";
+		String Attachments = "item:Attachments";
 
 		/** The Subject. */
 		String Subject = "item:Subject";

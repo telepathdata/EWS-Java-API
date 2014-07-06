@@ -9,8 +9,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Date;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  *  Represents a meeting request that an attendee can accept
  *   or decline. Properties available on meeting 
@@ -508,7 +506,6 @@ public class MeetingRequest extends MeetingMessage implements
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	@SuppressWarnings("unchecked")
 	public ItemCollection<Appointment> getConflictingMeetings()
 			throws ServiceLocalException {
 		return (ItemCollection<Appointment>) this.getPropertyBag()
@@ -524,7 +521,6 @@ public class MeetingRequest extends MeetingMessage implements
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	@SuppressWarnings("unchecked")
 	public ItemCollection<Appointment> getAdjacentMeetings()
 			throws ServiceLocalException {
 		return (ItemCollection<Appointment>) this.getPropertyBag()

@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Collection;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-
 /**
  * Represents the results of a GetUserAvailability operation.
  * 

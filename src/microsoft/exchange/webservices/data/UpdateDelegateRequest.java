@@ -9,7 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Represents an UpdateDelegate request.
  */

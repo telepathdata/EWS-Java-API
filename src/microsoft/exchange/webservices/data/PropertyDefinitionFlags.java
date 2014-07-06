@@ -7,6 +7,7 @@
 
 package microsoft.exchange.webservices.data;
 
+import java.util.EnumSet;
 
 /**
  * defines how a complex property behaves.

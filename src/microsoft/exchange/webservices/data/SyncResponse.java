@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * * Represents the base response class for synchronuization operations.
  * <typeparam name="TServiceObject">ServiceObject type.</typeparam> <typeparam

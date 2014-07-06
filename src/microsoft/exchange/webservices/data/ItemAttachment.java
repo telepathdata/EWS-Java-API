@@ -9,9 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-
 /**
  * Represents an item attachment.
  */
@@ -125,12 +122,14 @@ public class ItemAttachment extends Attachment implements
 		super.tryReadElementFromXml(reader);
 
 		reader.read();
-		Class<? extends Object> itemClass = EwsUtilities.getItemTypeFromXmlElementName(reader.getLocalName().toString());
+		Class itemClass = EwsUtilities.getItemTypeFromXmlElementName(reader
+				.getLocalName().toString());
 
 		if (itemClass != null) {
 			if (this.item == null
 					|| this.item.getClass() != itemClass) {
-				throw new ServiceLocalException(Strings.AttachmentItemTypeMismatch);
+				throw new ServiceLocalException(
+						Strings.AttachmentItemTypeMismatch);
 			}
 
 			this.item.loadFromXml(reader, false /* clearPropertyBag */);

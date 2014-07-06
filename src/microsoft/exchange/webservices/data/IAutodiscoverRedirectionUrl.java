@@ -6,8 +6,6 @@
  **************************************************************************/
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.AutodiscoverLocalException;
-
 /**
  * Defines a delegate that is used by the AutodiscoverService to ask whether a
  * redirectionUrl can be used.

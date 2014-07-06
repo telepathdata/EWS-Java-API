@@ -9,7 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.net.URI;
 import java.util.List;
 
-
 /**
  * Represents the base class for configuration settings.
  * 

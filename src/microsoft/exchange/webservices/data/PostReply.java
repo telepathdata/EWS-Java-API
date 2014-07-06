@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.InvalidOperationException;
-
 /**
  * Represents a reply to a post item.
  */

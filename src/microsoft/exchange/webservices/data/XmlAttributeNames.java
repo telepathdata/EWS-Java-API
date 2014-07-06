@@ -10,7 +10,7 @@ package microsoft.exchange.webservices.data;
  * XML attribute names.
  * 
  */
-public class XmlAttributeNames {
+class XmlAttributeNames {
 
 	/** The Constant XmlNs. */
 	public static final String XmlNs = "xmlns";

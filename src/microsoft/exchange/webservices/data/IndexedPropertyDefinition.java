@@ -7,8 +7,6 @@
 
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  * Represents an indexed property definition.
  * 
@@ -95,7 +93,7 @@ ServiceObjectPropertyDefinition {
 	 * @return The property definition's printable name.
 	 */
 	@Override
-	public String getPrintableName() {
+	protected String getPrintableName() {
 		return String.format("%s:%s", this.getUri(), this.getIndex());
 	}
 
@@ -136,7 +134,7 @@ ServiceObjectPropertyDefinition {
 	 * Gets the property type.
 	 */
 	@Override
-	public Class<String> getType()
+	public Class getType()
 	{
 		return String.class; 
 	}

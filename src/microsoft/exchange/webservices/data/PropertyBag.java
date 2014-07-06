@@ -13,11 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceObjectPropertyException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-
 /***
  * Represents a property bag keyed on PropertyDefinition objects.
  */

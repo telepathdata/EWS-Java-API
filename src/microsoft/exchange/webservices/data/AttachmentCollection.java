@@ -12,12 +12,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 
-import microsoft.exchange.webservices.data.exceptions.CreateAttachmentException;
-import microsoft.exchange.webservices.data.exceptions.DeleteAttachmentException;
-import microsoft.exchange.webservices.data.exceptions.InvalidOperationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-
 /***
  * 
  * Represents an item's attachment collection.
@@ -144,7 +138,6 @@ public final class AttachmentCollection extends
 	 * @throws Exception
 	 *             the exception
 	 */
-	@SuppressWarnings("unchecked")
 	public <TItem extends Item> GenericItemAttachment<TItem> addItemAttachment(
 			Class<TItem> cls) throws Exception {
 		if (cls.getDeclaredFields().length == 0) {
@@ -153,10 +146,14 @@ public final class AttachmentCollection extends
 							.getName()));
 		}
 
-		GenericItemAttachment<TItem> itemAttachment = new GenericItemAttachment<TItem>(this.owner);
-		itemAttachment.setTItem((TItem)EwsUtilities.createItemFromItemClass(itemAttachment, cls, true));
+		GenericItemAttachment<TItem> itemAttachment = 
+				new GenericItemAttachment<TItem>(
+				this.owner);
+		itemAttachment.setTItem((TItem)EwsUtilities.createItemFromItemClass(
+				itemAttachment, cls, true));
 
 		this.internalAdd(itemAttachment);
+
 		return itemAttachment;
 	}
 
@@ -434,7 +431,8 @@ public final class AttachmentCollection extends
 
 		// TODO : Should we throw for warnings as well?
 		if (responses.getOverallResult() == ServiceResult.Error) {
-			throw new DeleteAttachmentException(responses,	Strings.AtLeastOneAttachmentCouldNotBeDeleted);
+			throw new DeleteAttachmentException(responses,
+					Strings.AtLeastOneAttachmentCouldNotBeDeleted);
 		}
 	}
 

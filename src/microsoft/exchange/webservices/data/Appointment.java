@@ -9,8 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.util.ArrayList;
 import java.util.Date;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * Represents an appointment or a meeting. Properties available on appointments
  * are defined in the AppointmentSchema class.
@@ -973,7 +971,6 @@ public class Appointment extends Item implements ICalendarActionProvider {
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	@SuppressWarnings("unchecked")
 	public ItemCollection<Appointment> getConflictingMeetings()
 			throws ServiceLocalException {
 		return (ItemCollection<Appointment>) this.getPropertyBag()
@@ -989,11 +986,11 @@ public class Appointment extends Item implements ICalendarActionProvider {
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	@SuppressWarnings("unchecked")
 	public ItemCollection<Appointment> getAdjacentMeetings()
 			throws ServiceLocalException {
 		return (ItemCollection<Appointment>) this.getPropertyBag()
-				.getObjectFromPropertyDefinition(AppointmentSchema.AdjacentMeetings);
+				.getObjectFromPropertyDefinition(
+						AppointmentSchema.AdjacentMeetings);
 	}
 
 	/**

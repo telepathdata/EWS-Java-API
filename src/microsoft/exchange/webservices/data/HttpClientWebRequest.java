@@ -12,32 +12,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.KeyManagementException;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 
 import javax.net.ssl.TrustManager;
 
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-
-import org.apache.http.Header;
-import org.apache.http.HttpException;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpConnectionManager;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.commons.httpclient.NTCredentials;
+import org.apache.commons.httpclient.auth.AuthPolicy;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.EntityEnclosingMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.protocol.Protocol;
 
 
 /**
@@ -47,24 +46,23 @@ import org.apache.http.params.HttpConnectionParams;
 class HttpClientWebRequest extends HttpWebRequest {
 
 	/** The Http Client. */
-	private DefaultHttpClient client = null;
+	private HttpClient client = null;
 	
 	/** The Http Method. */
-	private HttpPost  httpPostReq = null;
-	private HttpResponse response = null;
+	private HttpMethodBase httpMethod = null;
 	
 	/** The TrustManager. */
 	private TrustManager trustManger = null;
 	
-	private ClientConnectionManager simpleClientConnMng = null;
+	private HttpConnectionManager simpleHttpConnMng = null;
 	
 	Cookie[] cookies = null;
 	
 	/**
 	 * Instantiates a new http native web request.
 	 */
-	public HttpClientWebRequest(ClientConnectionManager simpleClientConnMng) {
-		this.simpleClientConnMng = simpleClientConnMng;
+	public HttpClientWebRequest(HttpConnectionManager simpleHttpConnMng) {
+		this.simpleHttpConnMng = simpleHttpConnMng;
 	}
 
 	/**
@@ -74,11 +72,11 @@ class HttpClientWebRequest extends HttpWebRequest {
 	public void close() {
 		ExecutorService es =(ExecutorService) CallableSingleTon.getExecutor();
 		es.shutdown();
-		if (null != httpPostReq) {
-			httpPostReq.releaseConnection();
+		if (null != httpMethod) {
+			httpMethod.releaseConnection();
 			//postMethod.abort();
 		}
-		httpPostReq = null;
+		httpMethod = null;
 	}
 
 	/**
@@ -86,91 +84,62 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 * 
 	 * @throws EWSHttpException
 	 *             the eWS http exception
-	 * @throws KeyStoreException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws KeyManagementException 
 	 */
 	@Override
-	public void prepareConnection() throws EWSHttpException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
-		try {
-			if(trustManger != null) {
-				EwsSSLProtocolSocketFactory.trustManager = trustManger;
-			}
+	public void prepareConnection() throws EWSHttpException {
+		if(trustManger != null) {
+			EwsSSLProtocolSocketFactory.trustManager = trustManger;
+		}
 				
-			//register SSL scheme
-			Scheme httpsScheme = new Scheme("https", 443, EwsSSLProtocolSocketFactory.getInstance());
-			//SchemeRegistry schemeRegistry = new SchemeRegistry();
-			//schemeRegistry.register(httpsScheme);
-			this.simpleClientConnMng.getSchemeRegistry().register(httpsScheme);
-			
-			
-			
-			
-			//Protocol.registerProtocol("https", new Protocol("https", new EwsSSLProtocolSocketFactory(), 443));
-			
-			
-			
-			/*AuthPolicy.registerAuthScheme(AuthPolicy.NTLM, EwsJCIFSNTLMScheme.class);
-			
-			List<String> authPrefs = new ArrayList<String>();
-			authPrefs.add(AuthPolicy.NTLM);
-			authPrefs.add(AuthPolicy.BASIC);
-			authPrefs.add(AuthPolicy.DIGEST);
-			client.getParams().setParameter(AuthPolicy.AUTH_SCHEME_PRIORITY, authPrefs);*/
-			
-			
-			client = new DefaultHttpClient(this.simpleClientConnMng);
-			
-			
-			if(getProxy() != null) {
-				HttpHost proxy = new HttpHost(getProxy().getHost(), getProxy().getPort());
-				client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-				 
-				if (HttpProxyCredentials.isProxySet()) {
-					AuthScope authScope = new AuthScope(proxy); 
-					NTCredentials cred = new NTCredentials(HttpProxyCredentials.getUserName(),
-		            		HttpProxyCredentials.getPassword(),
-		                    "",HttpProxyCredentials.getDomain());
-					client.getCredentialsProvider().setCredentials(authScope, cred);
-				}
-			}
-			if(getUserName() != null) {
-				//System.out.println("client.getCredentialsProvider() => "+client.getCredentialsProvider());
-				client.getCredentialsProvider().setCredentials(AuthScope.ANY, new NTCredentials(getUserName(),getPassword(),"",getDomain()));
-				//System.out.println("setting credentials => "+getUserName()+ " / " +getPassword()+" / "+getDomain());
-			}
-			
-			client.getParams().setIntParameter(HttpConnectionParams.SO_TIMEOUT, getTimeout());
-			client.getParams().setIntParameter(HttpConnectionParams.CONNECTION_TIMEOUT, getTimeout());
-			httpPostReq = new HttpPost(getUrl().toString()); 
-			httpPostReq.addHeader("Content-type", getContentType());
-			//httpPostReq.setDoAuthentication(true);
-			httpPostReq.addHeader("User-Agent", getUserAgent());		
-			httpPostReq.addHeader("Accept", getAccept());		
-			httpPostReq.addHeader("Keep-Alive", "300");		
-			httpPostReq.addHeader("Connection", "Keep-Alive");
-			
-			
-			if(this.cookies !=null && this.cookies.length > 0){
-				for (Cookie c : this.cookies) {
-					client.getCookieStore().addCookie(c);
-				}
-			}
-			//HttpClientParams.setRedirecting(client.getParams(), isAllowAutoRedirect());
-	
-			if (isAcceptGzipEncoding()) {
-				httpPostReq.addHeader("Accept-Encoding", "gzip,deflate");
-			}
-	
-			if (getHeaders().size() > 0){
-				for (Map.Entry<String,String> httpHeader : getHeaders().entrySet()) {
-					httpPostReq.addHeader(httpHeader.getKey(), httpHeader.getValue());						
-				}
-	
+		Protocol.registerProtocol("https", 
+				new Protocol("https", new EwsSSLProtocolSocketFactory(), 443));
+		AuthPolicy.registerAuthScheme(AuthPolicy.NTLM, EwsJCIFSNTLMScheme.class);
+		client = new HttpClient(this.simpleHttpConnMng); 
+		List authPrefs = new ArrayList();
+		authPrefs.add(AuthPolicy.NTLM);
+		authPrefs.add(AuthPolicy.BASIC);
+		authPrefs.add(AuthPolicy.DIGEST);
+		client.getParams().setParameter(AuthPolicy.AUTH_SCHEME_PRIORITY, authPrefs);
+		
+		if(getProxy() != null) {
+			client.getHostConfiguration().setProxy(getProxy().getHost(),getProxy().getPort());
+			if (HttpProxyCredentials.isProxySet()) {
+				AuthScope authScope = new AuthScope(getProxy().getHost(), getProxy().getPort()); 
+				client.getState().setProxyCredentials(authScope, new NTCredentials(HttpProxyCredentials.getUserName(),
+	            		HttpProxyCredentials.getPassword(),
+	                    "",HttpProxyCredentials.getDomain())); 
+	                //new AuthScope(AuthScope.ANY_HOST, 80, AuthScope.ANY_REALM)
 			}
 		}
-		catch (Exception er) {
-			er.printStackTrace();
+		if(getUserName() != null) {
+		client.getState().setCredentials(AuthScope.ANY, new NTCredentials(getUserName(),getPassword(),"",getDomain()));
+		}
+		
+		client.getHttpConnectionManager().getParams().setSoTimeout(getTimeout());
+		client.getHttpConnectionManager().getParams().setConnectionTimeout(getTimeout());
+		httpMethod = new PostMethod(getUrl().toString()); 
+		httpMethod.setRequestHeader("Content-type", getContentType());
+		httpMethod.setDoAuthentication(true);
+		httpMethod.setRequestHeader("User-Agent", getUserAgent());		
+		httpMethod.setRequestHeader("Accept", getAccept());		
+		httpMethod.setRequestHeader("Keep-Alive", "300");		
+		httpMethod.setRequestHeader("Connection", "Keep-Alive");
+		
+		if(this.cookies !=null && this.cookies.length > 0){
+			client.getState().addCookies(this.cookies);
+		}
+		//httpMethod.setFollowRedirects(isAllowAutoRedirect());
+
+		if (isAcceptGzipEncoding()) {
+			httpMethod.setRequestHeader("Accept-Encoding", "gzip,deflate");
+		}
+
+		if (getHeaders().size() > 0){
+			for (Map.Entry httpHeader : getHeaders().entrySet()) {
+				httpMethod.setRequestHeader((String)httpHeader.getKey(),
+						(String)httpHeader.getValue());						
+			}
+
 		}
 	}
 
@@ -179,42 +148,35 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 * 
 	 * @throws EWSHttpException
 	 *             throws EWSHttpException
-	 * @throws KeyStoreException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws KeyManagementException 
 	 */
-	public void prepareAsyncConnection() throws EWSHttpException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
+	public void prepareAsyncConnection() throws EWSHttpException {
 		try {
-			if (trustManger != null) {
+			if(trustManger != null) {
 				EwsSSLProtocolSocketFactory.trustManager = trustManger;
 			}
 			
-			/*Protocol.registerProtocol("https", new Protocol("https", new EwsSSLProtocolSocketFactory(), 443));
+			Protocol.registerProtocol("https", 
+					new Protocol("https", new EwsSSLProtocolSocketFactory(), 443));
 			AuthPolicy.registerAuthScheme(AuthPolicy.NTLM, EwsJCIFSNTLMScheme.class);
-			client = new DefaultHttpClient(this.simpleClientConnMng); 
+			client = new HttpClient(this.simpleHttpConnMng); 
 			List authPrefs = new ArrayList();
 			authPrefs.add(AuthPolicy.NTLM);
 			authPrefs.add(AuthPolicy.BASIC);
 			authPrefs.add(AuthPolicy.DIGEST);
-			client.getParams().setParameter(AuthPolicy.AUTH_SCHEME_PRIORITY, authPrefs);*/
-			
-			//register SSL scheme
-			Scheme httpsScheme = new Scheme("https", 443, EwsSSLProtocolSocketFactory.getInstance());
-			SchemeRegistry schemeRegistry = new SchemeRegistry();
-			schemeRegistry.register(httpsScheme);
+			client.getParams().setParameter(AuthPolicy.AUTH_SCHEME_PRIORITY, authPrefs);
 
-			client.getCredentialsProvider().setCredentials(AuthScope.ANY, new NTCredentials(getUserName(),getPassword(),"",getDomain()));
-			client.getParams().setIntParameter(HttpConnectionParams.SO_TIMEOUT, getTimeout());
-			client.getParams().setIntParameter(HttpConnectionParams.CONNECTION_TIMEOUT, 20000);
-			//httpPostReq = new GetMethod(getUrl().toString()); 
-			httpPostReq = new HttpPost(getUrl().toString());
-			HttpClientParams.setRedirecting(client.getParams(), isAllowAutoRedirect());
-			response = client.execute(httpPostReq); 
-		} 
-		catch (IOException e) {
+			client.getState().setCredentials(AuthScope.ANY, new NTCredentials(getUserName(),getPassword(),"",getDomain()));
+			client.getHttpConnectionManager().getParams().setSoTimeout(getTimeout());
+			client.getHttpConnectionManager().getParams().setConnectionTimeout(20000);
+			httpMethod = new GetMethod(getUrl().toString()); 
+			httpMethod.setFollowRedirects(isAllowAutoRedirect());
+			
+			int status = client.executeMethod(httpMethod); 
+		} catch (IOException e) {
 			client = null;
-			httpPostReq = null;
-			throw new EWSHttpException("Unable to open connection to "+ this.getUrl());
+			httpMethod = null;
+			throw new EWSHttpException("Unable to open connection to "
+					+ this.getUrl());
 		}
 	}
 	
@@ -224,8 +186,10 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 * @throws EWSHttpException
 	 *             throws EWSHttpException
 	 */
-	public List<Cookie> getCookies()   {
-		return this.client.getCookieStore().getCookies();
+	public Cookie[] getCookies()   {
+		
+		return this.client.getState().getCookies();
+
 	}
 	
 	/**
@@ -255,10 +219,11 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 */
 	@Override
 	public InputStream getInputStream() throws EWSHttpException, IOException {
-		throwIfResponseIsNull();
+		throwIfConnIsNull();
 		BufferedInputStream bufferedInputStream = null;
 		try {
-			bufferedInputStream = new BufferedInputStream(response.getEntity().getContent());
+			bufferedInputStream = new 
+			BufferedInputStream(httpMethod.getResponseBodyAsStream());
 		} catch (IOException e) {
 			throw new EWSHttpException("Connection Error " + e);
 		}
@@ -274,10 +239,11 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 */
 	@Override
 	public InputStream getErrorStream() throws EWSHttpException {
-		throwIfResponseIsNull();
+		throwIfConnIsNull();
 		BufferedInputStream bufferedInputStream = null;
 		try {
-			bufferedInputStream = new BufferedInputStream(response.getEntity().getContent());
+			bufferedInputStream = new BufferedInputStream(
+					httpMethod.getResponseBodyAsStream());
 		} catch (Exception e) {
 			throw new EWSHttpException("Connection Error " + e);
 		}
@@ -288,16 +254,16 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 * Gets the output stream.
 	 * 
 	 * @return the output stream
-	 * @throws EWSHttpException  the eWS http exception
+	 * @throws EWSHttpException
+	 *             the eWS http exception
 	 */
 	@Override
 	public OutputStream getOutputStream() throws EWSHttpException {
 		OutputStream os = null;
-		throwIfRequestIsNull();
+		throwIfConnIsNull();
 		os = new ByteArrayOutputStream();
-		
-		httpPostReq.setEntity(new ByteArrayOSRequestEntity(os));
-		//((EntityEnclosingMethod) httpMethod).setRequestEntity(new ByteArrayOSRequestEntity(os)); 
+	
+		((EntityEnclosingMethod) httpMethod).setRequestEntity(new ByteArrayOSRequestEntity(os)); 
 		return os;
 	}
 
@@ -309,11 +275,12 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 *             the eWS http exception
 	 */
 	@Override
-	public Map<String, String> getResponseHeaders() throws EWSHttpException {
-		throwIfResponseIsNull();
+	public Map<String, String> getResponseHeaders()
+	throws EWSHttpException {
+		throwIfConnIsNull();
 		Map<String, String> map = new HashMap<String, String>(); 
 
-		Header[] hM = response.getAllHeaders();
+		Header[] hM = httpMethod.getResponseHeaders();
 		for (Header header : hM) {
 			// RFC2109: Servers may return multiple Set-Cookie headers 
 			// Need to append the cookies before they are added to the map
@@ -343,8 +310,8 @@ class HttpClientWebRequest extends HttpWebRequest {
 	@Override
 	public String getResponseHeaderField(String headerName)
 	throws EWSHttpException {
-		throwIfResponseIsNull();
-		Header hM = response.getFirstHeader(headerName);
+		throwIfConnIsNull();
+		Header hM = httpMethod.getResponseHeader(headerName);
 		return hM != null ? hM.getValue() : null;
 	}
 
@@ -357,8 +324,8 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 */
 	@Override
 	public String getContentEncoding() throws EWSHttpException {
-		throwIfResponseIsNull();
-		return response.getFirstHeader("content-encoding") != null ? response.getFirstHeader("content-encoding").getValue() : null;
+		throwIfConnIsNull();
+		return httpMethod.getResponseHeader("content-encoding") != null ? httpMethod.getResponseHeader("content-encoding").getValue() : null;
 	}
 
 	/**
@@ -370,8 +337,8 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 */
 	@Override
 	public String getResponseContentType() throws EWSHttpException {
-		throwIfResponseIsNull();
-		return response.getFirstHeader("Content-type") != null ? response.getFirstHeader("Content-type").getValue() : null;
+		throwIfConnIsNull();
+		return httpMethod.getResponseHeader("Content-type") != null ? httpMethod.getResponseHeader("Content-type").getValue() : null;
 	}
 	
 	/**
@@ -385,9 +352,10 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 *             the IO Exception
 	 */
 	@Override
-	public void executeRequest() throws EWSHttpException, HttpException, IOException {
-		throwIfRequestIsNull();
-		response = client.execute(httpPostReq);
+	public int executeRequest() throws EWSHttpException, HttpException, IOException {
+		throwIfConnIsNull();
+		
+		return client.executeMethod(httpMethod);
 	}
 
 	/**
@@ -399,8 +367,8 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 */
 	@Override
 	public int getResponseCode() throws EWSHttpException {
-		throwIfResponseIsNull();
-		return response.getStatusLine().getStatusCode();
+		throwIfConnIsNull();
+		return httpMethod.getStatusCode();
 	}
 	
 	/**
@@ -411,8 +379,8 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 *             the eWS http exception
 	 */
 	public String getResponseText() throws EWSHttpException {
-		throwIfResponseIsNull();
-		return response.getStatusLine().getReasonPhrase();
+		throwIfConnIsNull();
+		return httpMethod.getStatusText();
 	}
 
 	/**
@@ -421,15 +389,8 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 * @throws EWSHttpException
 	 *             the eWS http exception
 	 */
-	private void throwIfRequestIsNull() throws EWSHttpException {
-		if (null == httpPostReq) {
-			throw new EWSHttpException("Connection not established");
-		}
-	}
-	
-	
-	private void throwIfResponseIsNull() throws EWSHttpException {
-		if (null == response) {
+	private void throwIfConnIsNull() throws EWSHttpException {
+		if (null == httpMethod) {
 			throw new EWSHttpException("Connection not established");
 		}
 	}
@@ -441,11 +402,12 @@ class HttpClientWebRequest extends HttpWebRequest {
 	 * @throws EWSHttpException
 	 *             the eWS http exception
 	 */
-	public Map<String,String> getRequestProperty() throws EWSHttpException {
-		throwIfRequestIsNull();
+	public Map<String,String> getRequestProperty() throws EWSHttpException
+	{
+		throwIfConnIsNull();
 		Map<String, String> map = new HashMap<String, String>(); 
 
-		Header[] hM = httpPostReq.getAllHeaders();
+		Header[] hM = httpMethod.getRequestHeaders();
 		for (Header header : hM) {
 			map.put(header.getName(),header.getValue());
 		}

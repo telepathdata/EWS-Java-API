@@ -11,7 +11,6 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
 
-
 /***
  * Represents a strongly typed list of service responses.
  * 

@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Date;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentException;
-
 /**
  * ConversationAction class that represents 
  * ConversationActionType in the request XML.

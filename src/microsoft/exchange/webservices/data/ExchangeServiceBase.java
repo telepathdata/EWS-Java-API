@@ -10,33 +10,40 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.CookieStore;
+import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import microsoft.exchange.webservices.data.exceptions.AccountIsLockedException;
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.HttpConnectionManager;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 
 /***
  * Represents an abstract binding to an Exchange Service.
@@ -95,7 +102,7 @@ public abstract class ExchangeServiceBase {
 
 	private WebProxy webProxy;
 	
-	protected ClientConnectionManager simpleClientConnectionManager = new PoolingClientConnectionManager(); 
+	private HttpConnectionManager simpleHttpConnectionManager = new MultiThreadedHttpConnectionManager(); 
 	
 	HttpClientWebRequest request = null;
 	
@@ -107,9 +114,9 @@ public abstract class ExchangeServiceBase {
 	 * Static members
 	 */
 
-	/*protected ClientConnectionManager getSimpleClientConnectionManager() {
-		return simpleClientConnectionManager;
-	}*/
+	protected HttpConnectionManager getSimpleHttpConnectionManager() {
+		return simpleHttpConnectionManager;
+	}
 
 	/** Default UserAgent. */
 	private static String defaultUserAgent = "ExchangeServicesClient/" + 
@@ -223,16 +230,18 @@ public abstract class ExchangeServiceBase {
 	 * @throws URISyntaxException
 	 *             the uRI syntax exception
 	 */
-	protected HttpWebRequest prepareHttpWebRequestForUrl(URI url, boolean acceptGzipEncoding, boolean allowAutoRedirect)
+	protected HttpWebRequest prepareHttpWebRequestForUrl(URI url,
+			boolean acceptGzipEncoding, boolean allowAutoRedirect)
 	throws ServiceLocalException, URISyntaxException {
 		// Verify that the protocol is something that we can handle
 		if (!url.getScheme().equalsIgnoreCase("HTTP")
 				&& !url.getScheme().equalsIgnoreCase("HTTPS")) {
-			String strErr = String.format(Strings.UnsupportedWebProtocol, url.getScheme());
+			String strErr = String.format(Strings.UnsupportedWebProtocol, url.
+					getScheme());
 			throw new ServiceLocalException(strErr);
 		}
 
-		request = new HttpClientWebRequest(this.simpleClientConnectionManager);
+		 request = new HttpClientWebRequest(this.simpleHttpConnectionManager);
 		try {
 			request.setUrl(url.toURL());
 		} catch (MalformedURLException e) {
@@ -368,7 +377,7 @@ public abstract class ExchangeServiceBase {
 	 *            The trace flags.
 	 * @return True if tracing is enabled for specified trace flag(s).
 	 */
-	public boolean isTraceEnabledFor(TraceFlags traceFlags) {
+	protected boolean isTraceEnabledFor(TraceFlags traceFlags) {
 		return this.isTraceEnabled() && this.traceFlags.contains(traceFlags);
 	}
 
@@ -384,7 +393,7 @@ public abstract class ExchangeServiceBase {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public void traceMessage(TraceFlags traceType, String logEntry)
+	protected void traceMessage(TraceFlags traceType, String logEntry)
 	throws XMLStreamException, IOException {
 		if (this.isTraceEnabledFor(traceType)) {
 			String traceTypeStr = traceType.toString();
@@ -402,7 +411,7 @@ public abstract class ExchangeServiceBase {
 	 * @param stream
 	 *            The stream containing XML.
 	 */
-	public void traceXml(TraceFlags traceType,
+	protected void traceXml(TraceFlags traceType,
 			ByteArrayOutputStream stream) {
 		if (this.isTraceEnabledFor(traceType)) {
 			String traceTypeStr = traceType.toString();
@@ -423,7 +432,7 @@ public abstract class ExchangeServiceBase {
 	 * @throws IOException 
 	 * @throws XMLStreamException 
 	 */	
-	public void traceHttpRequestHeaders(TraceFlags traceType,
+	protected void traceHttpRequestHeaders(TraceFlags traceType,
 			HttpWebRequest request) 
 	throws URISyntaxException, EWSHttpException, XMLStreamException, IOException {
         if (this.isTraceEnabledFor(traceType)) {
@@ -472,8 +481,8 @@ public abstract class ExchangeServiceBase {
 	protected Date convertUniversalDateTimeStringToDate(String dateString) {
 		String localTimeRegex = "^(.*)([+-]{1}\\d\\d:\\d\\d)$";
 		Pattern localTimePattern = Pattern.compile(localTimeRegex);
-		//String timeRegex = "[0-9]{2,4}-[0-9]{1,2}-[0-9]{1,2}T[0-9]{2}:[0-9]{1,2}:[0-9]{1,2}.[0-9]{1,7}";		
-		//Pattern timePattern = Pattern.compile(timeRegex);
+		String timeRegex = "[0-9]{2,4}-[0-9]{1,2}-[0-9]{1,2}T[0-9]{2}:[0-9]{1,2}:[0-9]{1,2}.[0-9]{1,7}";		
+		Pattern timePattern = Pattern.compile(timeRegex);
 		String utcPattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 		String utcPattern1 = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'";
 		String localPattern = "yyyy-MM-dd'T'HH:mm:ssz";
@@ -631,7 +640,7 @@ public abstract class ExchangeServiceBase {
 	 * @throws ServiceLocalException
 	 *             the service local exception
 	 */
-	public  void validate() throws ServiceLocalException	{
+	protected  void validate() throws ServiceLocalException	{
 		
 		// E14:302056 -- Allow clients to add HTTP request 
 		//headers with 'X-' prefix but no others.
@@ -1029,7 +1038,7 @@ public abstract class ExchangeServiceBase {
 	 * @throws IOException 
 	 * @throws XMLStreamException 
 	 */
-	public void processHttpResponseHeaders(TraceFlags traceType, HttpWebRequest request) throws XMLStreamException, IOException, EWSHttpException
+    protected void processHttpResponseHeaders(TraceFlags traceType, HttpWebRequest request) throws XMLStreamException, IOException, EWSHttpException
     {
         this.traceHttpResponseHeaders(traceType, request);
 
@@ -1053,10 +1062,7 @@ public abstract class ExchangeServiceBase {
 
 		// Save the cookies for subsequent requests
 		if (this.request.getCookies() != null) {
-			
-			
-			Cookie [] cookieArr = new Cookie[this.request.getCookies().size()];
-			this.cookies = this.request.getCookies().toArray(cookieArr);
+			this.cookies = this.request.getCookies().clone();
 		}
 		
 	}

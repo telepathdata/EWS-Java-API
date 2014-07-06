@@ -72,7 +72,7 @@ final class ByteArrayPropertyDefinition extends TypedPropertyDefinition {
 	 * Gets the property type.
 	 */
 	@Override
-	public Class<? extends Object> getType() {
+	public Class getType() {
 		return Byte.class; 
 	}
 

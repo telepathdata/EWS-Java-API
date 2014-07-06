@@ -19,9 +19,10 @@ class ComparisonHelpers {
 	 * @param match String to match
 	 * @return true, if match contained in the collection
 	 */
-	 protected static boolean caseInsensitiveContains(ArrayList<String> collection, 
+	 protected static boolean caseInsensitiveContains(ArrayList collection, 
 			 String match) {
-         for(String str :collection) {
+         for(Object obj :collection) {
+             String str = (String)obj;
              if (str != null) {
                  if (str.equalsIgnoreCase(match)) {
                      return true;

@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.List;
 
-
 /**
  * Represents the response to an individual folder retrieval operation.
  * 
@@ -46,6 +45,7 @@ public final class GetFolderResponse extends ServiceResponse implements
 	 * @throws Exception
 	 *             the exception
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void readElementsFromXml(EwsServiceXmlReader reader)
 			throws Exception {

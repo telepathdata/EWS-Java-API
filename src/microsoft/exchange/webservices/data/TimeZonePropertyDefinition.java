@@ -11,9 +11,6 @@ import java.util.TimeZone;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  * Represents a property definition for properties of type TimeZoneInfo.
  * 
@@ -98,7 +95,7 @@ class TimeZonePropertyDefinition extends PropertyDefinition {
 	 * Gets the property type.
 	 */
 	@Override
-    public Class<TimeZone> getType()
+    public Class getType()
     {
          return TimeZone.class; 
     }

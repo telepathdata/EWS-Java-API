@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.ArgumentOutOfRangeException;
-
 /**
  * Represents a list of suggested name resolutions.
  */

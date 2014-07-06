@@ -9,7 +9,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Date;
 
-
 /**
  *Represents the options of a GetAvailability request.
  */

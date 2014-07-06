@@ -11,10 +11,6 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /**
  *Represents a GetUserSettings request.
  * 
@@ -327,9 +323,9 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
 		return partnerToken;
 	}
 
-	/*private void setPartnerToken(String value) {
+	private void setPartnerToken(String value) {
 		partnerToken = value;
-	}*/
+	}
 
 	/**<summary>
 	 * Gets the partner token reference.
@@ -339,7 +335,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
 
 	}
 
-	/*private void setPartnerTokenReference(String tokenReference) {
+	private void setPartnerTokenReference(String tokenReference) {
 		partnerTokenReference = tokenReference;
-	}*/
+	}
 }

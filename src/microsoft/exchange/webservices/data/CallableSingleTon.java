@@ -5,8 +5,10 @@
  * Defines the CallableSingleTon.java.
  **************************************************************************/
 package microsoft.exchange.webservices.data;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.util.concurrent.*;
+import java.util.*;
 
 public class CallableSingleTon {
 	static ExecutorService es;

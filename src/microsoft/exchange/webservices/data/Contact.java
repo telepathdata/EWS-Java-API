@@ -10,10 +10,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Date;
 
-import microsoft.exchange.webservices.data.exceptions.PropertyException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceVersionException;
-
 /**
  *Represents a contact. Properties available on contacts are defined in the
  * ContactSchema class.

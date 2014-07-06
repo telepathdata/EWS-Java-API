@@ -7,7 +7,6 @@
 package microsoft.exchange.webservices.data;
 
 
-
 /***
  * Represents a rule that automatically handles incoming messages.
  * A rule consists of a set of conditions 

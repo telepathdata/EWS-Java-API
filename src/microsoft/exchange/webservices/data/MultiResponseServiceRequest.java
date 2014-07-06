@@ -7,9 +7,7 @@
 
 package microsoft.exchange.webservices.data;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-
+import java.util.concurrent.FutureTask;
 
 /***
  * Represents a service request that can have multiple responses.
@@ -140,17 +138,20 @@ abstract class MultiResponseServiceRequest<TResponse extends ServiceResponse>
 	 * @throws Exception
 	 *             the exception
 	 */
-	@SuppressWarnings("unchecked")
 	protected ServiceResponseCollection<TResponse> execute() throws Exception {
 		ServiceResponseCollection<TResponse> serviceResponses = 
-			(ServiceResponseCollection<TResponse>)this.internalExecute();
+			(ServiceResponseCollection<TResponse>)this
+				.internalExecute();
 
 		if (this.errorHandlingMode == ServiceErrorHandling.ThrowOnError) {
 			EwsUtilities.EwsAssert(serviceResponses.getCount() == 1,
 					"MultiResponseServiceRequest.Execute",
-					"ServiceErrorHandling.ThrowOnError error handling is only valid for singleton request");
+					"ServiceErrorHandling.ThrowOnError " + "error handling " + 
+							"is only valid for singleton request");
+
 			serviceResponses.getResponseAtIndex(0).throwIfNecessary();
 		}
+
 		return serviceResponses;
 	}
 	

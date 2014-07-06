@@ -10,7 +10,6 @@ package microsoft.exchange.webservices.data;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Represents a working period.
  * 

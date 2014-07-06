@@ -8,7 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.Iterator;
 
-
 /***
  * Represents a collection of e-mail addresses.
  * 

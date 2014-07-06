@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.ArrayList;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * Represents an UpdateFolder request.
  * 

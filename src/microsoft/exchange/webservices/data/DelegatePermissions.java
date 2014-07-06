@@ -11,9 +11,6 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceValidationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  * Represents the permissions of a delegate user.
  */
@@ -357,7 +354,6 @@ public final class DelegatePermissions extends ComplexProperty {
 		/**
 		 * Gets IsExistingPermissionLevelCustom.
 		 */
-		@SuppressWarnings("unused")
 		protected boolean getIsExistingPermissionLevelCustom() { 
 			return this.isExistingPermissionLevelCustom;
 		}

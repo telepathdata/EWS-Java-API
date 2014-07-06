@@ -19,15 +19,6 @@ import java.util.zip.InflaterInputStream;
 
 import javax.xml.stream.XMLStreamException;
 
-import microsoft.exchange.webservices.data.exceptions.AutodiscoverResponseException;
-import microsoft.exchange.webservices.data.exceptions.EWSHttpException;
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceRemoteException;
-import microsoft.exchange.webservices.data.exceptions.ServiceRequestException;
-import microsoft.exchange.webservices.data.exceptions.ServiceResponseException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlDeserializationException;
-import microsoft.exchange.webservices.data.exceptions.ServiceXmlSerializationException;
-
 /***
  * Represents the base class for all requested made to the Autodiscover service.
  * 
@@ -111,7 +102,8 @@ abstract class AutodiscoverRequest {
 			// .getOutputStream());
 
 			ByteArrayOutputStream memoryStream = new ByteArrayOutputStream();
-			EwsServiceXmlWriter writer = new EwsServiceXmlWriter(this.getService(), memoryStream);
+			EwsServiceXmlWriter writer = new EwsServiceXmlWriter(this
+					.getService(), memoryStream);
 			writer.setRequireWSSecurityUtilityNamespace(needSignature);
 			this.writeSoapRequest(this.url, writer);
 
@@ -221,7 +213,8 @@ abstract class AutodiscoverRequest {
 
 			if (null != request && request.getResponseCode() == 7) {
 				if (AutodiscoverRequest.isRedirectionResponse(request)) {
-					this.service.processHttpResponseHeaders(
+					this.service
+							.processHttpResponseHeaders(
 									TraceFlags.AutodiscoverResponseHttpHeaders,
 									request);
 

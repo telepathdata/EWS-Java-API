@@ -8,8 +8,6 @@ package microsoft.exchange.webservices.data;
 
 import java.util.List;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-
 /**
  * Represents the base response class for individual folder move and copy
  * operations.
@@ -54,6 +52,7 @@ public final class MoveCopyFolderResponse extends ServiceResponse implements
 	 * @throws Exception
 	 *             the exception
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void readElementsFromXml(EwsServiceXmlReader reader)
 			throws Exception {

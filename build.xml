@@ -1,4 +1,4 @@
-﻿<project name="EWSJavaAPI_1.2" default="dist" basedir=".">
+<project name="EWSJavaAPI_1.2" default="dist" basedir=".">
   <description>
     Exchange Web Services Java API
   </description>

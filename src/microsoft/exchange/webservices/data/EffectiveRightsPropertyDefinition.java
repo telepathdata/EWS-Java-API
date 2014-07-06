@@ -123,7 +123,7 @@ final class EffectiveRightsPropertyDefinition extends PropertyDefinition {
 	 * Gets the property type.
 	 */
 	@Override
-	public Class<? extends Object> getType() {
+	public Class getType() {
 		return EffectiveRights.class; 
 	}
 }

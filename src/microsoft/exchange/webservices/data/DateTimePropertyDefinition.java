@@ -9,7 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.util.Date;
 import java.util.EnumSet;
 
-
 /***
  * Represents DateTime property definition.
  * 
@@ -134,7 +133,7 @@ class DateTimePropertyDefinition extends PropertyDefinition {
 	 * Gets the property type.
 	 */
 	@Override
-	public Class<? extends Object> getType() {
+	public Class getType() {
 		 return Date.class;
 		
 	}

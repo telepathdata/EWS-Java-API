@@ -9,7 +9,6 @@ package microsoft.exchange.webservices.data;
 import java.text.ParseException;
 import java.util.EnumSet;
 
-
 /**
  * Represents generic property definition.
  * 

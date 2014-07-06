@@ -10,20 +10,21 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-import javax.xml.ws.http.HTTPException;
 
-import microsoft.exchange.webservices.data.exceptions.ServiceLocalException;
-import microsoft.exchange.webservices.data.exceptions.ServiceRequestException;
+import org.apache.commons.httpclient.HttpClientError;
+import org.apache.commons.httpclient.HttpException;
 
 
 /***
  * Defines the SimpleServiceRequestBase class. 
  */
-public abstract class SimpleServiceRequestBase extends ServiceRequestBase {
+abstract class SimpleServiceRequestBase extends ServiceRequestBase {
 	
 	/**
 	 * Initializes a new instance of the SimpleServiceRequestBase class.
@@ -40,7 +41,8 @@ public abstract class SimpleServiceRequestBase extends ServiceRequestBase {
 	 */
 	protected Object internalExecute() 
 	throws ServiceLocalException, Exception {		
-		OutParam<HttpWebRequest> outParam = new OutParam<HttpWebRequest>();
+		OutParam<HttpWebRequest> outParam = 
+			new OutParam<HttpWebRequest>();
 		HttpWebRequest response = this.validateAndEmitRequest(outParam);
 		
         try {        	
@@ -53,7 +55,8 @@ public abstract class SimpleServiceRequestBase extends ServiceRequestBase {
         }
         catch (Exception e) {
             if (response != null) {
-                this.getService().processHttpResponseHeaders(TraceFlags.EwsResponseHttpHeaders, response);
+                this.getService().processHttpResponseHeaders(TraceFlags.
+                		EwsResponseHttpHeaders, response);
             }
 
             throw new ServiceRequestException(String.format(Strings.
@@ -104,16 +107,18 @@ public abstract class SimpleServiceRequestBase extends ServiceRequestBase {
     {
 		this.validate();
 
-		HttpWebRequest request = (HttpWebRequest) this.buildEwsHttpWebRequest().getParam();
+		HttpWebRequest request = (HttpWebRequest) this.buildEwsHttpWebRequest()
+				.getParam();
 
-		//WebAsyncCallStateAnchor wrappedState = new WebAsyncCallStateAnchor(
-		//		this, request, callback /* user callback */, state /*user state*/);*
+		WebAsyncCallStateAnchor wrappedState = new WebAsyncCallStateAnchor(
+				this, request, callback /* user callback */, state /*user state*/);
 
 		AsyncExecutor es = new AsyncExecutor();
-		Callable<HttpWebRequest> cl = new CallableMethod(request);
-		Future<HttpWebRequest> task = es.submit(cl, callback);
+		Callable cl = new CallableMethod(request);
+		Future task = es.submit(cl, callback);
 		es.shutdown();
-		AsyncRequestResult ft = new AsyncRequestResult(this, request, task,	null);
+		AsyncRequestResult ft = new AsyncRequestResult(this, request, task,
+				null);
 
 		// ct.setAsyncRequest();
 		// webAsyncResult =
@@ -171,7 +176,7 @@ public abstract class SimpleServiceRequestBase extends ServiceRequestBase {
 				serviceResponse = this.readResponse(ewsXmlReader);
 
 			}
-		} catch (HTTPException e) {
+		} catch (HttpException e) {
 			if (e.getMessage() != null) {
 				this.getService().processHttpResponseHeaders(
 						TraceFlags.EwsResponseHttpHeaders, response);
