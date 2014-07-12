@@ -4,6 +4,8 @@ name := "ews-java-api"
 
 version := "1.2"
 
+val jdk8 = System.getProperties.get("java.runtime.version").toString.startsWith("1.8")
+
 javaSource in Compile := baseDirectory.value / "src"
 
 libraryDependencies ++= Seq(
@@ -13,6 +15,4 @@ libraryDependencies ++= Seq(
   "jcifs" % "jcifs" % "1.3.17"
 )
 
-javacOptions ++= Seq("-source", "1.7", "-target", "1.7")
-
-javacOptions in doc := Seq("-source", "1.7", "-Xdoclint:none")
+if (jdk8) { javacOptions ++= Seq("-source", "1.7", "-Xdoclint:none") } else { javacOptions in doc ++= Seq() }
