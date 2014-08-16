@@ -716,8 +716,7 @@ IAutodiscoverRedirectionUrl, IFunctionDelegate {
 						"from DNS SRV record for %s.",
 						domainName));
 
-		String hostname = this.dnsClient
-		.findAutodiscoverHostFromSrv(domainName);
+		String hostname = this.dnsClient.findAutodiscoverHostFromSrv(domainName);
 		if (!(hostname == null || hostname.isEmpty())) {
 			this
 			.traceMessage(TraceFlags.AutodiscoverConfiguration,
@@ -1175,8 +1174,7 @@ IAutodiscoverRedirectionUrl, IFunctionDelegate {
 			// Last Chance: try to read autodiscover SRV Record from DNS. If we
 			// find one, use
 			// the hostname returned to construct an Autodiscover endpoint URL.
-			autodiscoverUrl = this
-			.getRedirectionUrlFromDnsSrvRecord(domainName);
+			autodiscoverUrl = this.getRedirectionUrlFromDnsSrvRecord(domainName);
 			if ((autodiscoverUrl != null) &&
 					this
 					.callRedirectionUrlValidationCallback(
@@ -2208,25 +2206,6 @@ IAutodiscoverRedirectionUrl, IFunctionDelegate {
 	public void setRedirectionUrlValidationCallback(
 			IAutodiscoverRedirectionUrl value) {
 		this.redirectionUrlValidationCallback = value;
-	}
-
-	/**
-	 * Gets the dns server address.
-	 * 
-	 * @return the dns server address
-	 */
-	protected String getDnsServerAddress() {
-		return this.dnsServerAddress;
-	}
-
-	/**
-	 * Sets the dns server address.
-	 * 
-	 * @param value
-	 *            the new dns server address
-	 */
-	protected void setDnsServerAddress(String value) {
-		this.dnsServerAddress = value;
 	}
 
 	/**

@@ -77,7 +77,11 @@ class AutodiscoverDnsClient {
 							"DNS query for SRV record for domain %s found %s",
 							domain, dnsSrvRecord.getNameTarget()));
 
-			return dnsSrvRecord.getNameTarget();
+            String hostName = dnsSrvRecord.getNameTarget();
+            if (hostName.length() > 0 && hostName.charAt(hostName.length()-1)=='.') {
+                hostName = hostName.substring(0, hostName.length()-1);
+            }
+            return hostName;
 		}
 	}
 
@@ -97,8 +101,7 @@ class AutodiscoverDnsClient {
 		List<DnsSrvRecord> dnsSrvRecordList;
 		try {
 			// Make DnsQuery call to get collection of SRV records.
-			dnsSrvRecordList = DnsClient.dnsQuery(DnsSrvRecord.class, domain,
-					this.service.getDnsServerAddress());
+			dnsSrvRecordList = DnsClient.dnsQuery(DnsSrvRecord.class, domain);
 		} catch (DnsException ex) {
 			String dnsExcMessage = String.format("DnsQuery returned error " +
 					"error '%s' error code 0x{1:X8}.",

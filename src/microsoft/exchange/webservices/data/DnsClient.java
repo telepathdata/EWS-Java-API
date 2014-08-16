@@ -39,8 +39,7 @@ class DnsClient {
 	 *             the dns exception
 	 */
 
-	protected static <T extends DnsRecord> List<T> dnsQuery(Class<T> cls,
-			String domain, String dnsServerAddress) throws DnsException {
+	protected static <T extends DnsRecord> List<T> dnsQuery(Class<T> cls, String domain) throws DnsException {
 
 		List<T> dnsRecordList = new ArrayList<T>();
 		try {
@@ -49,7 +48,7 @@ class DnsClient {
 			Hashtable<String, String> env = new Hashtable<String, String>();
 			env.put("java.naming.factory.initial",
 					"com.sun.jndi.dns.DnsContextFactory");
-			env.put("java.naming.provider.url", "dns://" + dnsServerAddress);
+			env.put("java.naming.provider.url", "dns:");
 
 			// Create initial context
 			DirContext ictx = new InitialDirContext(env);
@@ -75,8 +74,6 @@ class DnsClient {
 					}
 				}
 			}
-		} catch (NamingException ne) {
-			throw new DnsException(ne.getMessage());
 		} catch (Exception e) {
 			throw new DnsException(e.getMessage());
 		}
